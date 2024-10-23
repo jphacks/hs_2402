@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79AF35EB2CC8D7E900A115A8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 79AF35EA2CC8D7E900A115A8 /* SDWebImageSwiftUI */; };
 		79E13F792CC8CC430003E0C0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F782CC8CC430003E0C0 /* FirebaseAuth */; };
 		79E13F7B2CC8CC4B0003E0C0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F7A2CC8CC4B0003E0C0 /* FirebaseFirestore */; };
 		79E13F7D2CC8CC520003E0C0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F7C2CC8CC520003E0C0 /* FirebaseStorage */; };
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79AF35EB2CC8D7E900A115A8 /* SDWebImageSwiftUI in Frameworks */,
 				79E13F792CC8CC430003E0C0 /* FirebaseAuth in Frameworks */,
 				79E13F7B2CC8CC4B0003E0C0 /* FirebaseFirestore in Frameworks */,
 				79E13F7D2CC8CC520003E0C0 /* FirebaseStorage in Frameworks */,
@@ -133,6 +135,7 @@
 				79E13F782CC8CC430003E0C0 /* FirebaseAuth */,
 				79E13F7A2CC8CC4B0003E0C0 /* FirebaseFirestore */,
 				79E13F7C2CC8CC520003E0C0 /* FirebaseStorage */,
+				79AF35EA2CC8D7E900A115A8 /* SDWebImageSwiftUI */,
 			);
 			productName = Tripper;
 			productReference = 79B66D322CC8AD3000208CA2 /* Tripper.app */;
@@ -219,6 +222,7 @@
 			packageReferences = (
 				79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79B66D332CC8AD3000208CA2 /* Products */;
@@ -629,7 +633,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.4.0;
+				minimumVersion = 11.3.0;
 			};
 		};
 		79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
@@ -640,9 +644,22 @@
 				minimumVersion = 0.57.0;
 			};
 		};
+		79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		79AF35EA2CC8D7E900A115A8 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
 		79B66D812CC8B70D00208CA2 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */;
