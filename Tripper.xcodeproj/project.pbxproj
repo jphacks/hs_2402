@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		79E13F792CC8CC430003E0C0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F782CC8CC430003E0C0 /* FirebaseAuth */; };
+		79E13F7B2CC8CC4B0003E0C0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F7A2CC8CC4B0003E0C0 /* FirebaseFirestore */; };
+		79E13F7D2CC8CC520003E0C0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 79E13F7C2CC8CC520003E0C0 /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		79B66D442CC8AD3200208CA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79E13F792CC8CC430003E0C0 /* FirebaseAuth in Frameworks */,
+				79E13F7B2CC8CC4B0003E0C0 /* FirebaseFirestore in Frameworks */,
+				79E13F7D2CC8CC520003E0C0 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,7 @@
 				79B66D342CC8AD3000208CA2 /* Tripper */,
 				79B66D462CC8AD3200208CA2 /* TripperTests */,
 				79B66D502CC8AD3200208CA2 /* TripperUITests */,
+				79B66D942CC8B97800208CA2 /* Frameworks */,
 				79B66D332CC8AD3000208CA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +100,13 @@
 				79B66D4D2CC8AD3200208CA2 /* TripperUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		79B66D942CC8B97800208CA2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +130,9 @@
 			);
 			name = Tripper;
 			packageProductDependencies = (
+				79E13F782CC8CC430003E0C0 /* FirebaseAuth */,
+				79E13F7A2CC8CC4B0003E0C0 /* FirebaseFirestore */,
+				79E13F7C2CC8CC520003E0C0 /* FirebaseStorage */,
 			);
 			productName = Tripper;
 			productReference = 79B66D322CC8AD3000208CA2 /* Tripper.app */;
@@ -198,6 +218,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79B66D332CC8AD3000208CA2 /* Products */;
@@ -603,6 +624,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.4.0;
+			};
+		};
 		79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/SwiftLint";
@@ -618,6 +647,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		79E13F782CC8CC430003E0C0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		79E13F7A2CC8CC4B0003E0C0 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		79E13F7C2CC8CC520003E0C0 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794CA1A82CC8C6E900EA5604 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
