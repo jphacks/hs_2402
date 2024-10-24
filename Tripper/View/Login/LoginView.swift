@@ -25,44 +25,42 @@ struct LoginView: View {
     @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
         VStack(spacing: 10) {
-            Text("Lets Sign you in")
+            Text("ログイン")
                 .font(.largeTitle.bold())
                 .hAlign(.leading)
-            Text("Welcome Back, \nYou have been missed")
-                .font(.title3)
-                .hAlign(.leading)
+
+            Image(systemName: "airplane.departure")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 100, height: 100)
+                .padding(.vertical, 64)
 
             VStack(spacing: 12) {
                 TextField("Email", text: $emailID)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
-                    .padding(.top, 24)
 
                 SecureField("Password", text: $password)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
 
-                Button("Reset password?", action: resetPassword)
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .tint(.black)
-                    .hAlign(.trailing)
-
                 Button(action: loginUser) {
-                    Text("Sign in")
+                    Text("ログインする")
+                        .bold()
                         .foregroundStyle(.white)
                         .hAlign(.center)
                         .fillView(.black)
                 }
                 .padding(.top, 8)
+                .disableWithOpacity(isLoading)
             }
 
             // MARK: Register Button
             HStack {
-                Text("Don't have an account?")
+                Text("まだアカウントをお持ちでない方")
                     .foregroundStyle(.gray)
 
-                Button("Register Now") {
+                Button("新規登録") {
                     createAccount.toggle()
                 }
                 .fontWeight(.bold)
@@ -72,7 +70,7 @@ struct LoginView: View {
             .vAlign(.bottom)
         }
         .vAlign(.top)
-        .padding(16)
+        .padding(24)
         .overlay(content: {
             LoadingView(show: $isLoading)
         })

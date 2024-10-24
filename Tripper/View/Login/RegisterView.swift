@@ -16,8 +16,6 @@ struct RegisterView: View {
     @State var emailID: String = ""
     @State var password: String = ""
     @State var userName: String = ""
-    @State var userBio: String = ""
-    @State var userBioLink: String = ""
     @State var userProfilePicData: Data?
 
     @Environment(\.dismiss) var dismiss
@@ -33,11 +31,8 @@ struct RegisterView: View {
     @AppStorage("user_UID") var userUID: String = ""
     var body: some View {
         VStack(spacing: 10) {
-            Text("Lets Register\nAccount")
+            Text("新規登録")
                 .font(.largeTitle.bold())
-                .hAlign(.leading)
-            Text("Hello user, have a wonderful journey")
-                .font(.title3)
                 .hAlign(.leading)
 
             // MARK: For Smaller size Optimization
@@ -63,7 +58,7 @@ struct RegisterView: View {
             .vAlign(.bottom)
         }
         .vAlign(.top)
-        .padding(16)
+        .padding(24)
         .overlay(content: {
             LoadingView(show: $isLoading)
         })
@@ -105,6 +100,7 @@ struct RegisterView: View {
                 showImagePicker.toggle()
             }
             .padding(.top, 24)
+            .padding(.bottom, 16)
 
             TextField("Username", text: $userName)
                 .textContentType(.emailAddress)
@@ -118,29 +114,14 @@ struct RegisterView: View {
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
 
-            TextField("About you", text: $userBio)
-                .frame(minHeight: 100, alignment: .top)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.5))
-
-            TextField("Bio Link (Optional)", text: $userBioLink)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.5))
-
-            Button("Reset password?", action: {})
-                .font(.callout)
-                .fontWeight(.medium)
-                .tint(.black)
-                .hAlign(.trailing)
-
             Button(action: registerUser) {
-                Text("Sign up")
+                Text("登録する")
                     .foregroundStyle(.white)
                     .hAlign(.center)
                     .fillView(.black)
             }
-            .disableWithOpacity(shouldDisableButton())
-            .padding(.top, 8)
+            .disableWithOpacity(shouldDisableButton() || isLoading)
+            .padding(.top, 24)
         }
     }
 
@@ -159,8 +140,7 @@ struct RegisterView: View {
                 // Step3: Downloading Photo URL
                 let downloadURL = try await storageRef.downloadURL()
                 // Step4: Creating a User Firestore Object
-                let user = User(username: userName, userBio: userBio, userBioLink: userBioLink,
-                                userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
+                let user = User(username: userName, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                 // Step5: Saving User Doc into Firestore Database
                 _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user) { error in
                     if error == nil {
@@ -189,10 +169,10 @@ struct RegisterView: View {
     }
 
     func shouldDisableButton() -> Bool {
-        return userName == "" || userBio == "" || emailID == "" || password == "" || userProfilePicData == nil
+        return userName == "" || emailID == "" || password == "" || userProfilePicData == nil
     }
 }
 
 #Preview {
-    ContentView()
+    RegisterView()
 }

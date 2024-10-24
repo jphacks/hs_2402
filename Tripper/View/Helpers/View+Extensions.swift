@@ -44,9 +44,9 @@ extension View {
     func fillView(_ color: Color) -> some View {
         self
             .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .padding(.vertical, 16)
             .background {
-                RoundedRectangle(cornerRadius: 5, style: .continuous)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(color)
             }
     }
