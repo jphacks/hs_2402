@@ -125,7 +125,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				79B66D822CC8B70D00208CA2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				79B66D342CC8AD3000208CA2 /* Tripper */,
@@ -220,7 +219,6 @@
 			mainGroup = 79B66D292CC8AD3000208CA2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				797D5B7E2CC9444600983853 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
@@ -294,10 +292,6 @@
 			isa = PBXTargetDependency;
 			target = 79B66D312CC8AD3000208CA2 /* Tripper */;
 			targetProxy = 79B66D4E2CC8AD3200208CA2 /* PBXContainerItemProxy */;
-		};
-		79B66D822CC8B70D00208CA2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 79B66D812CC8B70D00208CA2 /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -636,14 +630,6 @@
 				minimumVersion = 11.4.0;
 			};
 		};
-		79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/SwiftLint";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.57.0;
-			};
-		};
 		79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -674,11 +660,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 79E13FD82CC8D6370003E0C0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
-		};
-		79B66D812CC8B70D00208CA2 /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 79B66D702CC8B05400208CA2 /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
