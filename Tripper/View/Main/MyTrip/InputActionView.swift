@@ -39,7 +39,7 @@ struct InputActionView: View {
                 }
 
                 HStack(alignment: .top) {
-                    Text("カテゴリを選択")
+                    Text("カテゴリ")
                         .padding(.top, 4)
                     Spacer()
                     VStack {

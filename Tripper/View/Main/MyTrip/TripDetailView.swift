@@ -11,7 +11,7 @@ struct TripDetailView: View {
     @Binding var trip: Trip
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 4) {
+            VStack(spacing: 12) {
                 // プラン内容
                 ForEach(trip.actions){ action in
                     ActionRowView(action: action)

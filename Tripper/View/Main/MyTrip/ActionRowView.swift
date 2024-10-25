@@ -45,7 +45,6 @@ struct ActionRowView: View {
             }
         }
         .hAlign(.leading)
-        .padding(.top)
     }
 }
 
