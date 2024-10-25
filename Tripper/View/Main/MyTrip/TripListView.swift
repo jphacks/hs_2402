@@ -15,7 +15,7 @@ struct TripListView: View {
             LazyVStack{
                 ForEach(pvm.travelcourse){ travelcourse in
                     NavigationLink{
-                        TripDetailView()
+                        TripDetailView(trip: travelcourse)
                     } label: {
                         TripRowView(trip: travelcourse)
                     }

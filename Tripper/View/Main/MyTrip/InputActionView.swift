@@ -144,7 +144,7 @@ struct InputActionView: View {
 
 extension InputActionView{
     private var inputArea: some View{
-        NavigationLink(destination: TripDetailView()
+        NavigationLink(destination: TripDetailView(trip: mockTravelCourse)
             .environmentObject(pvm)
             .toolbar(.hidden)) {
                 Text("プランを追加")

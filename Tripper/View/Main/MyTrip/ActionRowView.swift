@@ -9,56 +9,33 @@ import SwiftUI
 
 struct ActionRowView: View {
     let action: Action
-    @ObservedObject var pvm: TripViewModel = TripViewModel()
-
     var body: some View {
-
-        HStack {
+        HStack(spacing: 16) {
             VStack {
-                Text(pvm.formattedStartTime(date: action.startTime))
+                Text(action.startTime.formatted(.dateTime.hour().minute()))
                 Text("|")
-                Text(pvm.formattedStartTime(date: action.endTime))
+                Text(action.endTime?.formatted(.dateTime.hour().minute()) ?? "")
             }
             .padding()
             .background(.white)
             .cornerRadius(20)
-            
-            //Image(systemName: "fork.knife")
-            //Text(schedule.imageUrl ?? "")
-            
-            VStack {
-                if let url = URL(string: action.imageUrl ?? "") {
-                           AsyncImage(url: url) { phase in
-                               switch phase {
-                               case .empty:
-                                   ProgressView()  // 画像がロードされるまでのインジケーター
-                               case .success(let image):
-                                   image
-                                       .resizable()
-                                       .aspectRatio(contentMode: .fit)  // 画像を表示する際の調整
-                                       .frame(width: 200, height: 200)  // 画像のサイズを指定
-                               case .failure:
-                                   Image(systemName: "exclamationmark.triangle.fill")  // エラー時のアイコン
-                                       .resizable()
-                                       .frame(width: 50, height: 50)
-                               @unknown default:
-                                   EmptyView()
-                               }
-                           }
-                       } else {
-                           Text("Invalid URL")  // URLが無効な場合に表示されるテキスト
-                       }
-                   }
-            
-            
+
+            if let image = action.category?.image() {
+                Image(systemName: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 35, height: 35)
+            }
+
             Text(action.name)
         }
+        .hAlign(.leading)
         .padding()
         .background(.blue)
         .cornerRadius(20)
     }
 }
 
-//#Preview {
-//    PlanRow()
-//}
+#Preview {
+    ActionRowView(action: mockSchedules.first!)
+}
