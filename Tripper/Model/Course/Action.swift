@@ -8,14 +8,12 @@
 import Foundation
 
 struct Action: Identifiable {
-    var id: String = UUID().uuidString         // 各スポットの一意のID
-    var name: String              // スポットの名称
+    var id: String = UUID().uuidString
+    var name: String
     var category: Category?
-    var memo: String?       // スポットの説明orメモ
-    var address: String?           // スポットの住所
-    var imageUrl: String?         // スポットの写真URL（オプション）
     var startTime: Date
     var endTime: Date?
+    var memo: String?
 }
 
 enum Category: Hashable {
@@ -90,46 +88,28 @@ let mockSchedules: [Action] = [
     Action(
         name: "浅草寺",
         category: .activity(.sightseeing),
-        memo: "東京で最も有名な寺院の一つで、観光客に人気があります。",
-        address: "東京都台東区浅草2-3-1",
-        imageUrl: "https://example.com/asakusa_temple.jpg",
-        startTime: Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!, // 開始時刻を午前10時に設定
-        endTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) // 終了時刻を正午に設定
+        startTime: Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!, endTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()), memo: "東京で最も有名な寺院の一つで、観光客に人気があります。" // 終了時刻を正午に設定
     ),
     Action(
         name: "秋葉原",
         category: .activity(.shopping),
-        memo: "電気製品やアニメ関連商品が豊富に揃うエリアです。",
-        address: "東京都千代田区外神田1丁目",
-        imageUrl: "https://example.com/akihabara.jpg",
-        startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!, // 開始時刻を午後2時に設定
-        endTime: Calendar.current.date(bySettingHour: 16, minute: 0, second: 0, of: Date()) // 終了時刻を午後4時に設定
+        startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!, endTime: Calendar.current.date(bySettingHour: 16, minute: 0, second: 0, of: Date()), memo: "電気製品やアニメ関連商品が豊富に揃うエリアです。" // 終了時刻を午後4時に設定
     ),
     Action(
         name: "東京ディズニーランド",
         category: .activity(.activity),
-        memo: "夢の国、東京ディズニーランドで楽しむアトラクションやショー。",
-        address: "千葉県浦安市舞浜1-1",
-        imageUrl: "https://example.com/tokyo_disneyland.jpg",
-        startTime: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!, // 開始時刻を午前9時に設定
-        endTime: Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date()) // 終了時刻を午後6時に設定
+        startTime: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!,
+        endTime: Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date()), // 終了時刻を午後6時に設定
+        memo: "夢の国、東京ディズニーランドで楽しむアトラクションやショー。"
     ),
     Action(
         name: "JR山手線",
         category: .transport(.train),
-        memo: "東京を一周する主要な鉄道路線です。",
-        address: nil,
-        imageUrl: "https://example.com/yamanote_line.jpg",
-        startTime: Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date())!, // 開始時刻はなし
-        endTime: Calendar.current.date(bySettingHour: 18, minute: 30, second: 0, of: Date())! // 終了時刻はなし
+        startTime: Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date())!, endTime: Calendar.current.date(bySettingHour: 18, minute: 30, second: 0, of: Date())!, memo: "東京を一周する主要な鉄道路線です。" // 終了時刻はなし
     ),
     Action(
         name: "晩ご飯",
         category: .activity(.dining),
-        memo: "どこいくかは未定",
-        address: nil,
-        imageUrl: "https://example.com/tokyo_bus.jpg",
-        startTime: Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!, // 開始時刻はなし
-        endTime: nil // 終了時刻はなし
+        startTime: Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!, endTime: nil, memo: "どこいくかは未定" // 終了時刻はなし
     )
 ]

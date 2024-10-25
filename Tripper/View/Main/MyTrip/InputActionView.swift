@@ -9,95 +9,108 @@ import SwiftUI
 
 struct InputActionView: View {
     @State private var name: String = ""
-    @State private var startTime: Date = Date()
-    @State private var eneTime: Date? = nil
-    @State private var starttimeh: String = ""
-    @State private var starttimem: String = ""
-    @State private var endtimeh: String = ""
-    @State private var endtimem: String = ""
     @State private var category: Category = .activity(.sightseeing)
+    @State private var startTime: Date = Date()
+    @State private var endTime: Date = Date()
+    @State private var isValidEndTime: Bool = true
     @State private var memo: String = ""
-    @State private var adress: String = ""
-    @State private var imageUrl: String = ""
-
+    @State private var isValidMemo: Bool = false
     @Binding var trip: Trip
-
     @Environment(\.dismiss) var dismiss
+
+    init(trip: Binding<Trip>) {
+        self._trip = trip
+        let calendar = Calendar.current
+        let startTime = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: trip.wrappedValue.travelDate) ?? trip.wrappedValue.travelDate
+        let endTime = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: trip.wrappedValue.travelDate) ?? trip.wrappedValue.travelDate
+        self._startTime = State(initialValue: startTime)
+        self._endTime = State(initialValue: endTime)
+    }
 
     var body: some View {
         Form {
-            HStack{
-                Text("イベント: ")
-                Spacer()
-                TextField("イベント名", text: $name)
-            }
+            Section(header: Text("イベント")) {
+                HStack {
+                    Text("イベント")
+                    TextField("タイトルを入力", text: $name)
+                        .multilineTextAlignment(TextAlignment.trailing)
+                }
 
-            HStack {
-                Text("開始時刻: ")
-                TextField("00", text: $starttimeh)
-                    .keyboardType(.numberPad)  // 数字入力用キーボード
-                Text("時")
-                TextField("00", text: $starttimem)
-                    .keyboardType(.numberPad)  // 数字入力用キーボード
-                Text("分")
-                Spacer()
-            }
-
-            HStack {
-                Text("終了時刻: ")
-                TextField("00", text: $endtimeh)
-                    .keyboardType(.numberPad)  // 数字入力用キーボード
-                Text("時")
-                TextField("00", text: $endtimem)
-                    .keyboardType(.numberPad)  // 数字入力用キーボード
-                Text("分")
-                Spacer()
-            }
-
-            HStack {
-                Text("場所: ")
-                Spacer()
-                TextField("住所", text: $adress)
-            }
-
-            Picker("カテゴリを選択", selection: $category) {
-                // Activityカテゴリの選択肢
-                ForEach(Activity.allCases, id: \.self) { activity in
-                    HStack {
-                        Image(systemName: activity.image())
-                        Text(activity.rawValue)
+                Picker("カテゴリを選択", selection: $category) {
+                    // Activityカテゴリの選択肢
+                    ForEach(Activity.allCases, id: \.self) { activity in
+                        HStack {
+                            Image(systemName: activity.image())
+                            Text(activity.rawValue)
+                        }
+                        .tag(Category.activity(activity))
                     }
-                    .tag(Category.activity(activity))
-                }
 
-                // Transportカテゴリの選択肢
-                ForEach(Transport.allCases, id: \.self) { transport in
-                    HStack {
-                        Image(systemName: transport.image())
-                        Text(transport.rawValue)
+                    // Transportカテゴリの選択肢
+                    ForEach(Transport.allCases, id: \.self) { transport in
+                        HStack {
+                            Image(systemName: transport.image())
+                            Text(transport.rawValue)
+                        }
+                        .tag(Category.transport(transport))
                     }
-                    .tag(Category.transport(transport))
                 }
-            }
-            .tint(.black)
-            .pickerStyle(MenuPickerStyle())
-
-            HStack {
-                Text("メモ: ")
-                TextField("何する？", text: $memo)
+                .pickerStyle(MenuPickerStyle())
             }
 
-            HStack {
-                Spacer()  // 左に空白を作る
-                Button(action: {dismiss()}) {
-                    Text("プランを追加")
-                        .foregroundColor(Color.blue)
+            DatePicker("開始時刻", selection: $startTime, in: ...endTime, displayedComponents: .hourAndMinute)
+            HStack(alignment: .top, spacing: 0) {
+                Text("終了時刻")
+                Spacer()
+                VStack {
+                    if isValidEndTime {
+                        DatePicker("", selection: $endTime, in: startTime..., displayedComponents: .hourAndMinute)
+                    }
+                    Toggle(isOn: $isValidEndTime, label: {})
                 }
             }
-            .padding()
-            .navigationTitle("新規プラン")
+
+            Section {
+                HStack {
+                    Text("メモ")
+                    Spacer()
+                    Toggle(isOn: $isValidMemo){}
+                }
+                if isValidMemo {
+                    TextEditor(text: $memo)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.horizontal, 16)
+                        .frame(height: 100)
+                }
+            }
+
+            Button(action: addTrip) {
+                Text("イベントを追加")
+                    .foregroundColor(Color.white)
+                    .bold()
+            }
+            .hAlign(.center)
+            .vAlign(.center)
+            .background(Color.blue)
+            .listRowInsets(EdgeInsets())
+            .navigationTitle("新規イベント")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    func addTrip() {
+        var addingMemo: String? = self.memo
+        var addingEndTime: Date? = self.endTime
+        if !isValidMemo {
+            addingMemo = nil
+        }
+        if !isValidEndTime {
+            addingEndTime = nil
+        }
+        let action = Action(name: name, category: category, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
+        trip.actions.append(action)
+        trip.actions.sort { $0.startTime < $1.startTime }
+        dismiss()
     }
 }
 
