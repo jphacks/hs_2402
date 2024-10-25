@@ -84,7 +84,7 @@ enum Transport: String, CaseIterable {
 }
 
 // モックデータ作成
-let mockSchedules: [Action] = [
+let mockActions: [Action] = [
     Action(
         name: "浅草寺",
         category: .activity(.sightseeing),
@@ -92,8 +92,8 @@ let mockSchedules: [Action] = [
     ),
     Action(
         name: "秋葉原",
-        category: .activity(.shopping),
-        startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!, endTime: Calendar.current.date(bySettingHour: 16, minute: 0, second: 0, of: Date()), memo: "電気製品やアニメ関連商品が豊富に揃うエリアです。" // 終了時刻を午後4時に設定
+        category: nil,
+        startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!, memo: "電気製品やアニメ関連商品が豊富に揃うエリアです。" // 終了時刻を午後4時に設定
     ),
     Action(
         name: "東京ディズニーランド",

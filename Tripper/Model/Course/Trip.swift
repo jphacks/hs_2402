@@ -24,4 +24,4 @@ var mockTrip = Trip(
     title: "東京旅行",
     travelDate: Date(),
     prefecture: "東京",   // .tokyo,
-    actions: mockSchedules)
+    actions: mockActions)

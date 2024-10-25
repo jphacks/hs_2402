@@ -10,32 +10,46 @@ import SwiftUI
 struct ActionRowView: View {
     let action: Action
     var body: some View {
-        HStack(spacing: 16) {
-            VStack {
-                Text(action.startTime.formatted(.dateTime.hour().minute()))
-                Text("|")
-                Text(action.endTime?.formatted(.dateTime.hour().minute()) ?? "")
-            }
-            .padding()
-            .background(.white)
-            .cornerRadius(20)
-
+        HStack(alignment: .center, spacing: 16) {
             if let image = action.category?.image() {
                 Image(systemName: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 35, height: 35)
+                    .frame(width: 30, height: 30)
+                    .foregroundStyle(.green)
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(Circle())
+            } else {
+                Circle()
+                    .foregroundStyle(.white)
+                    .frame(width: 30, height: 30)
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(Circle())
             }
 
-            Text(action.name)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 4) {
+                    Text(action.startTime.formatted(.dateTime.hour().minute()))
+                    if let endTime = action.endTime {
+                        Text("-")
+                        Text(endTime.formatted(.dateTime.hour().minute()))
+                    }
+                }
+                .foregroundStyle(.secondary)
+                .font(.callout)
+
+                Text(action.name)
+                    .font(.title3)
+            }
         }
         .hAlign(.leading)
-        .padding()
-        .background(.blue)
-        .cornerRadius(20)
+        .padding(.top)
     }
 }
 
 #Preview {
-    ActionRowView(action: mockSchedules.first!)
+    ActionRowView(action: mockActions[1])
+        .background(Color(UIColor.systemGray6))
 }
