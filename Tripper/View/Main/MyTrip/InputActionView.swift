@@ -19,7 +19,7 @@ struct InputActionView: View {
     @State private var adress: String = ""
     @State private var imageUrl: String = ""
     
-    @EnvironmentObject var pvm:PlanViewModel //= PlanViewModel()
+    @EnvironmentObject var pvm:TripViewModel //= PlanViewModel()
     @State private var isShowCreate:Bool = false
     
     @Environment(\.presentationMode) var presentationMode

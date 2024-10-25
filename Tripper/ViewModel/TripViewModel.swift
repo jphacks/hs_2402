@@ -7,8 +7,8 @@
 
 import Foundation
 
-class PlanViewModel: ObservableObject {
-    @Published var travelcourse: [Trip] = []
+class TripViewModel: ObservableObject {
+    @Published var travelcourse: [Trip] = [mockTravelCourse]
     @Published var isEditing: Bool = false
 
     init() {

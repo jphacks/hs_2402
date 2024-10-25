@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct TripListView: View {
-    @EnvironmentObject var pvm:PlanViewModel
+    @EnvironmentObject var pvm:TripViewModel
 
     var body: some View {
         ScrollView{
-            VStack{
+            LazyVStack{
                 ForEach(pvm.travelcourse){ travelcourse in
                     NavigationLink{
                         TripDetailView()
-                            .environmentObject(pvm)
-                            .toolbar(.hidden)
                     } label: {
-                        TripRowView(travelcourse: travelcourse)
+                        TripRowView(trip: travelcourse)
                     }
                 }
             }
@@ -28,25 +26,7 @@ struct TripListView: View {
 }
 
 #Preview {
-    @Previewable @StateObject var pvm: PlanViewModel = PlanViewModel()
+    @Previewable @StateObject var pvm: TripViewModel = TripViewModel()
     TripListView()
         .environmentObject(pvm)
-}
-
-extension TripListView{
-    private func TripRowView(travelcourse: Trip) -> some View {
-        HStack{
-            VStack(alignment: .leading){
-                Text(travelcourse.title)
-                    .lineLimit(1)
-                    .foregroundColor(.primary)
-                Text("♡\(String(travelcourse.likes))")
-                    .font(.footnote)
-                    .lineLimit(1)
-                    .foregroundColor(Color(uiColor: .secondaryLabel))
-            }
-            .padding()
-            Spacer()
-        }
-    }
 }

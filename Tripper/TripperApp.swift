@@ -16,6 +16,7 @@ struct TripperApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(TripViewModel())
         }
     }
 }

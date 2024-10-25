@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TripDetailView: View {
-    @EnvironmentObject var pvm:PlanViewModel // = PlanViewModel()//この中にモックデータも入ってる
+    @EnvironmentObject var pvm:TripViewModel // = PlanViewModel()//この中にモックデータも入ってる
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationView {
@@ -18,7 +18,7 @@ struct TripDetailView: View {
     }
 }
 #Preview {
-    @Previewable @StateObject var pvm: PlanViewModel = PlanViewModel()
+    @Previewable @StateObject var pvm: TripViewModel = TripViewModel()
     TripDetailView()
         .environmentObject(pvm)
 }

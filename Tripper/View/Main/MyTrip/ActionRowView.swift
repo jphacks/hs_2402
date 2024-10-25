@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ActionRowView: View {
     let action: Action
-    @ObservedObject var pvm: PlanViewModel = PlanViewModel()
+    @ObservedObject var pvm: TripViewModel = TripViewModel()
 
     var body: some View {
 

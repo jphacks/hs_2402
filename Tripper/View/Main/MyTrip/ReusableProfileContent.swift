@@ -9,7 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
-    @StateObject private var pvm: PlanViewModel = PlanViewModel()
+    @StateObject private var pvm: TripViewModel = TripViewModel()
     var user: User
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
