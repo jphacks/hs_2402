@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct InputScheduleView: View {
+struct InputActionView: View {
     @State private var name: String = ""
     @State private var starttimeh: String = ""
     @State private var starttimem: String = ""
     @State private var endtimeh: String = ""
     @State private var endtimem: String = ""
-    @State private var category: Category = .spot(.sightseeing)
+    @State private var category: Category = .activity(.sightseeing)
     @State private var categoryString: String = ""
     @State private var memo: String = ""
     @State private var adress: String = ""
@@ -142,13 +142,13 @@ struct InputScheduleView: View {
 //    InputScheduleView()
 //}
 
-extension InputScheduleView{
+extension InputActionView{
     private var inputArea: some View{
-        NavigationLink(destination: CreatePlanView()
+        NavigationLink(destination: TripDetailView()
             .environmentObject(pvm)
             .toolbar(.hidden)) {
                 Text("プランを追加")
-                    .foregroundColor(Color.blue)//{
+                    .foregroundColor(Color.blue)
         }
     }
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct TravelCourse: Identifiable {
+// 旅行全体を表す構造体
+struct Trip: Identifiable {
     var id: String = UUID().uuidString         // 各コースの一意のID
     var title: String             // コースのタイトル
 //    var departureDate: Date       // 出発日
@@ -15,12 +16,12 @@ struct TravelCourse: Identifiable {
     var travelDate: Date
     var imageUrl: String?         // 旅を表す写真のURL（オプション）
     var prefecture: String?     // JapanesePrefecture (主な目的地（都市や国など）)
-    var spots: [Schedule]             // 立ち寄るスポットのリスト
+    var actions: [Action]             // 立ち寄るスポットのリスト
     var likes: Int = 0  // いいね数
 }
 
-let mockTravelCourse = TravelCourse(
+let mockTravelCourse = Trip(
     title: "東京旅行",
     travelDate: Date(),
     prefecture: "東京",   // .tokyo,
-    spots: mockSchedules)
+    actions: mockSchedules)

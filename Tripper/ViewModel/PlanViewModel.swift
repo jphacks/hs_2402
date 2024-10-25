@@ -8,7 +8,7 @@
 import Foundation
 
 class PlanViewModel: ObservableObject {
-    @Published var travelcourse: [TravelCourse] = []
+    @Published var travelcourse: [Trip] = []
     @Published var isEditing: Bool = false
 
     init() {
@@ -30,7 +30,7 @@ class PlanViewModel: ObservableObject {
     }
 
     func  addTravelCourse(title: String, travelDate: Date, image: String?, prefecture: String?) {// 機能見直しの必要あり
-        let spots: [Schedule] = []
+        let spots: [Action] = []
         
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -54,13 +54,13 @@ class PlanViewModel: ObservableObject {
 //                                 readed: false
 //        )
 
-        let newTravelCourse = TravelCourse(
+        let newTravelCourse = Trip(
             // var id: String = UUID().uuidString         // 各コースの一意のID
             title: title,           // コースのタイトル
             travelDate: dateFromString!,     // 出発日
             // imageUrl: String?,         // 旅を表す写真のURL（オプション）
             // prefecture: String?, //JapanesePrefecture          // 主な目的地（都市や国など）
-            spots: spots,             // 立ち寄るスポットのリスト
+            actions: spots,             // 立ち寄るスポットのリスト
             likes: 0  // いいね数
         )
 
@@ -81,7 +81,7 @@ class PlanViewModel: ObservableObject {
         }
         
         
-        let newSchedule = Schedule(
+        let newSchedule = Action(
             name: name,             // スポットの名称
             category: category,
             memo: memo,       // スポットの説明orメモ
@@ -91,7 +91,7 @@ class PlanViewModel: ObservableObject {
             endTime: endtime
         )
         
-        travelcourse[0].spots.append(newSchedule)//ゆくゆくは0番目だけではなく、すべてのtravelcourseにアクセスできるようにする
+        travelcourse[0].actions.append(newSchedule)//ゆくゆくは0番目だけではなく、すべてのtravelcourseにアクセスできるようにする
     }
     
     func starttime(starttimeh: String, starttimem: String) -> Date

@@ -7,42 +7,34 @@
 
 import SwiftUI
 
-struct SelectTravelCourseView: View {
+struct TripListView: View {
     @EnvironmentObject var pvm:PlanViewModel
-    
+
     var body: some View {
-//        NavigationView {
-        VStack{
-            Text("コース一覧")
-                .font(.title)
-            
-            ScrollView{
-                VStack{
-                    ForEach(pvm.travelcourse){ travelcourse in
-                        NavigationLink{
-                            CreatePlanView()
-                                .environmentObject(pvm)
-                                .toolbar(.hidden)
-                        } label: {
-                            travelCourseRow(travelcourse: travelcourse)
-                            
-                        }
-                    }
+        ScrollView{
+            VStack{
+                ForEach(pvm.travelcourse){ travelcourse in
+                    NavigationLink{
+                        TripDetailView()
+                            .environmentObject(pvm)
+                            .toolbar(.hidden)
+                    } label: {
+                        TripRowView(travelcourse: travelcourse)
                     }
                 }
             }
-//        }
+        }
     }
 }
 
 #Preview {
     @Previewable @StateObject var pvm: PlanViewModel = PlanViewModel()
-    SelectTravelCourseView()
+    TripListView()
         .environmentObject(pvm)
 }
 
-extension SelectTravelCourseView{
-    private func travelCourseRow(travelcourse: TravelCourse) -> some View {
+extension TripListView{
+    private func TripRowView(travelcourse: Trip) -> some View {
         HStack{
             VStack(alignment: .leading){
                 Text(travelcourse.title)

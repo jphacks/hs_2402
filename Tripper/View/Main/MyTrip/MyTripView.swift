@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
-struct ProfileView: View {
+struct MyTripView: View {
     @State private var myProfile: User?
     @AppStorage("log_status") var logStatus: Bool = false
 
@@ -104,5 +104,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    MyTripView()
 }

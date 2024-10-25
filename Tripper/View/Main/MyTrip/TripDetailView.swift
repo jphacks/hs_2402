@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreatePlanView: View {
+struct TripDetailView: View {
     @EnvironmentObject var pvm:PlanViewModel // = PlanViewModel()//この中にモックデータも入ってる
     @Environment(\.dismiss) private var dismiss
     var body: some View {
@@ -19,10 +19,10 @@ struct CreatePlanView: View {
 }
 #Preview {
     @Previewable @StateObject var pvm: PlanViewModel = PlanViewModel()
-    CreatePlanView()
+    TripDetailView()
         .environmentObject(pvm)
 }
-extension CreatePlanView{
+extension TripDetailView{
     private var scrollArea: some View{
         ScrollView{
             VStack {
@@ -39,8 +39,8 @@ extension CreatePlanView{
         }
     }
     private var planArea: some View{
-            ForEach(pvm.travelcourse[0].spots){spot in
-                PlanRow(schedule: spot)
+            ForEach(pvm.travelcourse[0].actions){spot in
+                ActionRowView(action: spot)
             }
     }
     private var routeArea: some View{
@@ -55,7 +55,7 @@ extension CreatePlanView{
     private var addPlanArea: some View{
         NavigationLink
         {
-            InputScheduleView()
+            InputActionView()
                 .environmentObject(pvm)
                 .toolbar(.hidden)
         }

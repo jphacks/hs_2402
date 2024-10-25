@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct PlanRow: View {
-    let schedule: Schedule
+struct ActionRowView: View {
+    let action: Action
     @ObservedObject var pvm: PlanViewModel = PlanViewModel()
 
     var body: some View {
 
         HStack {
             VStack {
-                Text(pvm.formattedStartTime(date: schedule.startTime))
+                Text(pvm.formattedStartTime(date: action.startTime))
                 Text("|")
-                Text(pvm.formattedStartTime(date: schedule.endTime))
+                Text(pvm.formattedStartTime(date: action.endTime))
             }
             .padding()
             .background(.white)
@@ -27,7 +27,7 @@ struct PlanRow: View {
             //Text(schedule.imageUrl ?? "")
             
             VStack {
-                if let url = URL(string: schedule.imageUrl ?? "") {
+                if let url = URL(string: action.imageUrl ?? "") {
                            AsyncImage(url: url) { phase in
                                switch phase {
                                case .empty:
@@ -51,7 +51,7 @@ struct PlanRow: View {
                    }
             
             
-            Text(schedule.name)
+            Text(action.name)
         }
         .padding()
         .background(.blue)
