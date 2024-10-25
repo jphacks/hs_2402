@@ -9,11 +9,13 @@ import SwiftUI
 
 struct InputActionView: View {
     @State private var name: String = ""
-    @State private var category: Category = .activity(.sightseeing)
+    @State private var category: Category = .activity(.dining)
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
-    @State private var isValidEndTime: Bool = true
     @State private var memo: String = ""
+
+    @State private var isValidCategory: Bool = true
+    @State private var isValidEndTime: Bool = true
     @State private var isValidMemo: Bool = false
     @Binding var trip: Trip
     @Environment(\.dismiss) var dismiss
@@ -36,31 +38,42 @@ struct InputActionView: View {
                         .multilineTextAlignment(TextAlignment.trailing)
                 }
 
-                Picker("カテゴリを選択", selection: $category) {
-                    // Activityカテゴリの選択肢
-                    ForEach(Activity.allCases, id: \.self) { activity in
-                        HStack {
-                            Image(systemName: activity.image())
-                            Text(activity.rawValue)
-                        }
-                        .tag(Category.activity(activity))
-                    }
+                HStack(alignment: .top) {
+                    Text("カテゴリを選択")
+                        .padding(.top, 4)
+                    Spacer()
+                    VStack {
+                        if isValidCategory {
+                            Picker("", selection: $category) {
+                                // Activityカテゴリの選択肢
+                                ForEach(Activity.allCases, id: \.self) { activity in
+                                    HStack {
+                                        Image(systemName: activity.image())
+                                        Text(activity.rawValue)
+                                    }
+                                    .tag(Category.activity(activity))
+                                }
 
-                    // Transportカテゴリの選択肢
-                    ForEach(Transport.allCases, id: \.self) { transport in
-                        HStack {
-                            Image(systemName: transport.image())
-                            Text(transport.rawValue)
+                                // Transportカテゴリの選択肢
+                                ForEach(Transport.allCases, id: \.self) { transport in
+                                    HStack {
+                                        Image(systemName: transport.image())
+                                        Text(transport.rawValue)
+                                    }
+                                    .tag(Category.transport(transport))
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
                         }
-                        .tag(Category.transport(transport))
+                        Toggle(isOn: $isValidCategory) {}
                     }
                 }
-                .pickerStyle(MenuPickerStyle())
             }
 
             DatePicker("開始時刻", selection: $startTime, in: ...endTime, displayedComponents: .hourAndMinute)
             HStack(alignment: .top, spacing: 0) {
                 Text("終了時刻")
+                    .padding(.top, 4)
                 Spacer()
                 VStack {
                     if isValidEndTime {
@@ -99,15 +112,21 @@ struct InputActionView: View {
     }
 
     func addTrip() {
-        var addingMemo: String? = self.memo
+        var addingCategory: Category? = self.category
         var addingEndTime: Date? = self.endTime
-        if !isValidMemo {
-            addingMemo = nil
+        var addingMemo: String? = self.memo
+
+        if !isValidCategory {
+            addingCategory = nil
         }
         if !isValidEndTime {
             addingEndTime = nil
         }
-        let action = Action(name: name, category: category, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
+        if !isValidMemo {
+            addingMemo = nil
+        }
+
+        let action = Action(name: name, category: addingCategory, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
         trip.actions.append(action)
         trip.actions.sort { $0.startTime < $1.startTime }
         dismiss()
