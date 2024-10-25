@@ -20,7 +20,7 @@ struct Trip: Identifiable {
     var likes: Int = 0  // いいね数
 }
 
-let mockTravelCourse = Trip(
+var mockTrip = Trip(
     title: "東京旅行",
     travelDate: Date(),
     prefecture: "東京",   // .tokyo,

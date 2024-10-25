@@ -9,7 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
-    @StateObject private var pvm: TripViewModel = TripViewModel()
+    @State private var fetchedTrips: [Trip] = [mockTrip]
     var user: User
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -39,8 +39,7 @@ struct ReusableProfileContent: View {
                     .hAlign(.leading)
                     .padding(.vertical, 16)
 
-                TripListView()
-                    .environmentObject(pvm)
+                TripListView(trips: $fetchedTrips)
             }
             .padding(16)
         }

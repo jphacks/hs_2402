@@ -25,5 +25,5 @@ struct TripRowView: View {
 }
 
 #Preview {
-    TripRowView(trip: mockTravelCourse)
+    TripRowView(trip: mockTrip)
 }

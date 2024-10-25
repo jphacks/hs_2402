@@ -32,7 +32,6 @@ extension TripDetailView{
     private var AddActionButton: some View {
         NavigationLink {
             InputActionView()
-                .toolbar(.hidden)
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 30))    // プラスマークの大きさを指定
@@ -47,9 +46,7 @@ extension TripDetailView{
 }
 
 #Preview {
-    @Previewable @StateObject var pvm: TripViewModel = TripViewModel()
     NavigationStack {
-        TripDetailView(trip: mockTravelCourse)
-            .environmentObject(pvm)
+        TripDetailView(trip: mockTrip)
     }
 }

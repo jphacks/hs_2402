@@ -18,7 +18,7 @@ struct Action: Identifiable {
     var endTime: Date?
 }
 
-enum Category {
+enum Category: Hashable {
     case activity(Activity)
     case transport(Transport)
     // 文字列でカテゴリー名を取得するヘルパーメソッド

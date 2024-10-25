@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct TripListView: View {
-    @EnvironmentObject var pvm:TripViewModel
-
+    @Binding var trips: [Trip]
     var body: some View {
         ScrollView{
             LazyVStack{
-                ForEach(pvm.travelcourse){ travelcourse in
+                ForEach(trips){ trip in
                     NavigationLink{
-                        TripDetailView(trip: travelcourse)
+                        TripDetailView(trip: trip)
                     } label: {
-                        TripRowView(trip: travelcourse)
+                        TripRowView(trip: trip)
                     }
                 }
             }
@@ -26,7 +25,6 @@ struct TripListView: View {
 }
 
 #Preview {
-    @Previewable @StateObject var pvm: TripViewModel = TripViewModel()
-    TripListView()
-        .environmentObject(pvm)
+    @Previewable @State var trips: [Trip] = [mockTrip]
+    TripListView(trips: $trips)
 }
