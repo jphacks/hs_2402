@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TripDetailView: View {
-    var trip: Trip
+    @Binding var trip: Trip
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
@@ -31,7 +31,7 @@ struct TripDetailView: View {
 extension TripDetailView{
     private var AddActionButton: some View {
         NavigationLink {
-            InputActionView()
+            InputActionView(trip: $trip)
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 30))    // プラスマークの大きさを指定
@@ -46,7 +46,8 @@ extension TripDetailView{
 }
 
 #Preview {
+    @Previewable @State var trip = mockTrip
     NavigationStack {
-        TripDetailView(trip: mockTrip)
+        TripDetailView(trip: $trip)
     }
 }

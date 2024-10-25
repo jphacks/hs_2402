@@ -10,13 +10,13 @@ import SwiftUI
 struct TripListView: View {
     @Binding var trips: [Trip]
     var body: some View {
-        ScrollView{
-            LazyVStack{
-                ForEach(trips){ trip in
-                    NavigationLink{
-                        TripDetailView(trip: trip)
+        ScrollView {
+            LazyVStack {
+                ForEach(trips.indices, id: \.self) { index in
+                    NavigationLink {
+                        TripDetailView(trip: $trips[index])
                     } label: {
-                        TripRowView(trip: trip)
+                        TripRowView(trip: trips[index])
                     }
                 }
             }

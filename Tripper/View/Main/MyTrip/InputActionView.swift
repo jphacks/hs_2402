@@ -9,17 +9,18 @@ import SwiftUI
 
 struct InputActionView: View {
     @State private var name: String = ""
+    @State private var startTime: Date = Date()
+    @State private var eneTime: Date? = nil
     @State private var starttimeh: String = ""
     @State private var starttimem: String = ""
     @State private var endtimeh: String = ""
     @State private var endtimem: String = ""
     @State private var category: Category = .activity(.sightseeing)
-    @State private var categoryString: String = ""
     @State private var memo: String = ""
     @State private var adress: String = ""
     @State private var imageUrl: String = ""
 
-    @State private var isShowCreate:Bool = false
+    @Binding var trip: Trip
 
     @Environment(\.dismiss) var dismiss
 
@@ -30,7 +31,7 @@ struct InputActionView: View {
                 Spacer()
                 TextField("イベント名", text: $name)
             }
-            
+
             HStack {
                 Text("開始時刻: ")
                 TextField("00", text: $starttimeh)
@@ -59,14 +60,27 @@ struct InputActionView: View {
                 TextField("住所", text: $adress)
             }
 
-            HStack {
-                Picker("場所の種類:",selection: $category) {
-                    /// 選択項目の一覧
-                    ForEach(Activity.allCases, id: \.self) { acitvity in
-                        Text(acitvity.rawValue)
+            Picker("カテゴリを選択", selection: $category) {
+                // Activityカテゴリの選択肢
+                ForEach(Activity.allCases, id: \.self) { activity in
+                    HStack {
+                        Image(systemName: activity.image())
+                        Text(activity.rawValue)
                     }
+                    .tag(Category.activity(activity))
+                }
+
+                // Transportカテゴリの選択肢
+                ForEach(Transport.allCases, id: \.self) { transport in
+                    HStack {
+                        Image(systemName: transport.image())
+                        Text(transport.rawValue)
+                    }
+                    .tag(Category.transport(transport))
                 }
             }
+            .tint(.black)
+            .pickerStyle(MenuPickerStyle())
 
             HStack {
                 Text("メモ: ")
@@ -88,5 +102,6 @@ struct InputActionView: View {
 }
 
 #Preview {
-    InputActionView()
+    @Previewable @State var trip = mockTrip
+    InputActionView(trip: $trip)
 }
