@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
+    @State private var fetchedTrips: [Trip] = [mockTrip]
     var user: User
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -31,12 +32,14 @@ struct ReusableProfileContent: View {
                         .hAlign(.leading)
                 }
 
-                Text("Post's")
+                Text("トリップ一覧")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.black)
                     .hAlign(.leading)
                     .padding(.vertical, 16)
+
+                TripListView(trips: $fetchedTrips)
             }
             .padding(16)
         }
@@ -44,6 +47,8 @@ struct ReusableProfileContent: View {
 }
 
 #Preview {
-    ReusableProfileContent(user: User(username: "yuki", userUID: "aaa",
-                                      userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: "")))
+    NavigationStack {
+        ReusableProfileContent(user: User(username: "yuki", userUID: "aaa",
+                                          userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: "")))
+    }
 }

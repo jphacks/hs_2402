@@ -22,7 +22,7 @@ struct MainView: View {
                     Image(systemName: "house")
                     Text("ホーム")
                 }
-            ProfileView()
+            MyTripView()
                 .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")
                     Text("マイトリップ")
