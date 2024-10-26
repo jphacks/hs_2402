@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 struct TripDetailView: View {
     @Binding var trip: Trip
+    @Binding var trips: [Trip]
 
     @State private var showingDialog: Bool = false
     @State private var isEditAction: Bool = false
@@ -42,6 +43,24 @@ struct TripDetailView: View {
                             Text("\(trip.copiedIDs.count)")
                                 .foregroundColor(.secondary)
                                 .font(.footnote)
+                                .padding(.trailing, 12)
+                            Menu {
+                                Button {
+                                    print("a")
+                                } label: {
+                                    Text("プロフィール編集")
+                                }
+                                Button {
+                                    deleteTrip(deletedTrip: trip)
+                                } label: {
+                                    Text("トリップ削除")
+                                }
+
+                            } label: {
+                                Image(systemName: "gearshape.fill")
+                                    .foregroundColor(.secondary)
+                                    .font(.callout)
+                            }
                         }
 
                         Text("\(trip.title)")
@@ -97,7 +116,7 @@ struct TripDetailView: View {
                         }
                     }
                     .padding(.horizontal, 24)
-                    .navigationTitle("\(trip.title)")
+                    .navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
                 }
                 .hAlign(.center).vAlign(.top)
@@ -108,7 +127,7 @@ struct TripDetailView: View {
                     }
                     Button("削除", role: .destructive) {
                         if selectedAction != nil {
-                            deleteTrip(action: selectedAction!)
+                            deleteAction(action: selectedAction!)
                         }
                     }
                 }
@@ -141,7 +160,7 @@ extension TripDetailView{
         .padding()  // 右下に余白を追加
     }
 
-    func deleteTrip(action: Action) {
+    func deleteAction(action: Action) {
         var index: Int?
 
         for i in 0..<trip.actions.count {
@@ -154,11 +173,25 @@ extension TripDetailView{
         }
         dismiss()
     }
-}
 
-#Preview {
-    @Previewable @State var trip = mockTrip
-    NavigationStack {
-        TripDetailView(trip: $trip)
+    func deleteTrip(deletedTrip: Trip) {
+        var index: Int?
+
+        for i in 0..<trips.count {
+            if trips[i].id == deletedTrip.id{
+                index = i
+            }
+        }
+        if index != nil {
+            trips.remove(at: index!)
+        }
+        dismiss()
     }
 }
+
+//#Preview {
+//    @Previewable @State var trip = mockTrip
+//    NavigationStack {
+//        TripDetailView(trip: $trip, trips: Binding<[mockTri]>)
+//    }
+//}

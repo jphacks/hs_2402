@@ -204,7 +204,7 @@ struct InputTripView: View {
 extension InputTripView{
     private var AddNewTripButton: some View {
         NavigationLink {
-            TripDetailView(trip: $trips.last!)
+            TripDetailView(trip: $trips.last!, trips: $trips)
         } label: {
             Text("トリップを作成")
                 .foregroundColor(Color.blue)

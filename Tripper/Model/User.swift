@@ -32,4 +32,4 @@ struct User: Identifiable, Codable {
 }
 
 var mockUser = User(username: "yuki", userUID: "aaa",
-                    userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: ""), userBio: "今日は日本", myTrips: [mockTrip, mockTrip])
+                    userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: ""), userBio: "今日は日本", myTrips: [mockTrip, mockTrip2])

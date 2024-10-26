@@ -14,7 +14,7 @@ struct TripListView: View {
             VStack {
                 ForEach(trips.indices, id: \.self) { index in
                     NavigationLink {
-                        TripDetailView(trip: $trips[index])
+                        TripDetailView(trip: $trips[index], trips: $trips)
                     } label: {
                         TripRowView(trip: trips[index])
                     }
@@ -26,6 +26,6 @@ struct TripListView: View {
 }
 
 #Preview {
-    @Previewable @State var trips: [Trip] = [mockTrip, mockTrip]
+    @Previewable @State var trips: [Trip] = [mockTrip, mockTrip2]
     TripListView(trips: $trips)
 }

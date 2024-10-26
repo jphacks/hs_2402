@@ -23,7 +23,7 @@ enum PageType: CaseIterable {
 }
 
 struct ReusableProfileContent: View {
-    @State private var fetchedMyTrips: [Trip] = [mockTrip, mockTrip]
+    @State private var fetchedMyTrips: [Trip] = [mockTrip, mockTrip2]
     @State private var fetchedLikeTrips: [Trip] = [mockTrip]
     @State var pageType: PageType = .myTrips
 
