@@ -23,8 +23,8 @@ struct InputActionView: View {
     init(trip: Binding<Trip>) {
         self._trip = trip
         let calendar = Calendar.current
-        let startTime = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: trip.wrappedValue.travelDate) ?? trip.wrappedValue.travelDate
-        let endTime = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: trip.wrappedValue.travelDate) ?? trip.wrappedValue.travelDate
+        let startTime = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: trip.wrappedValue.startDate) ?? trip.wrappedValue.startDate
+        let endTime = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: trip.wrappedValue.startDate) ?? trip.wrappedValue.startDate
         self._startTime = State(initialValue: startTime)
         self._endTime = State(initialValue: endTime)
     }
@@ -43,29 +43,26 @@ struct InputActionView: View {
                         .padding(.top, 4)
                     Spacer()
                     VStack {
-                        if isValidCategory {
-                            Picker("", selection: $category) {
-                                // Activityカテゴリの選択肢
-                                ForEach(Activity.allCases, id: \.self) { activity in
-                                    HStack {
-                                        Image(systemName: activity.image())
-                                        Text(activity.rawValue)
-                                    }
-                                    .tag(Category.activity(activity))
+                        Picker("", selection: $category) {
+                            // Activityカテゴリの選択肢
+                            ForEach(Activity.allCases, id: \.self) { activity in
+                                HStack {
+                                    Image(systemName: activity.image())
+                                    Text(activity.rawValue)
                                 }
-
-                                // Transportカテゴリの選択肢
-                                ForEach(Transport.allCases, id: \.self) { transport in
-                                    HStack {
-                                        Image(systemName: transport.image())
-                                        Text(transport.rawValue)
-                                    }
-                                    .tag(Category.transport(transport))
-                                }
+                                .tag(Category.activity(activity))
                             }
-                            .pickerStyle(MenuPickerStyle())
+
+                            // Transportカテゴリの選択肢
+                            ForEach(Transport.allCases, id: \.self) { transport in
+                                HStack {
+                                    Image(systemName: transport.image())
+                                    Text(transport.rawValue)
+                                }
+                                .tag(Category.transport(transport))
+                            }
                         }
-                        Toggle(isOn: $isValidCategory) {}
+                        .pickerStyle(MenuPickerStyle())
                     }
                 }
             }
@@ -112,13 +109,9 @@ struct InputActionView: View {
     }
 
     func addTrip() {
-        var addingCategory: Category? = self.category
         var addingEndTime: Date? = self.endTime
         var addingMemo: String? = self.memo
 
-        if !isValidCategory {
-            addingCategory = nil
-        }
         if !isValidEndTime {
             addingEndTime = nil
         }
@@ -126,7 +119,7 @@ struct InputActionView: View {
             addingMemo = nil
         }
 
-        let action = Action(name: name, category: addingCategory, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
+        let action = Action(id: UUID().uuidString, title: name, category: category, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
         trip.actions.append(action)
         trip.actions.sort { $0.startTime < $1.startTime }
         dismiss()

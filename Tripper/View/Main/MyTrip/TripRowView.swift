@@ -14,7 +14,7 @@ struct TripRowView: View {
             Text(trip.title)
                 .lineLimit(1)
                 .foregroundColor(.primary)
-            Text("♡\(trip.likes)")
+            Text("♡\(trip.likedIDs.count)")
                 .font(.footnote)
                 .lineLimit(1)
                 .foregroundColor(.secondary)
