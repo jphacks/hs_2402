@@ -16,13 +16,13 @@ struct TripRowView: View {
                 WebImage(url: trip.imageUrl) { image in
                     image
                 } placeholder: {
-                    Image("NullProfile")
+                    Image("sampleTripImage")
                         .resizable()
                 }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 60, height: 60)
-                .clipShape(Circle())
+                .clipShape(Rectangle())
             }
             VStack(alignment: .leading, spacing: 5) {
                 Text("\(trip.formattedDateRange())")
