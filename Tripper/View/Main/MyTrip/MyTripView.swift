@@ -33,7 +33,7 @@ struct MyTripView: View {
                 }
             }
             .background(Color.white)
-            .navigationTitle("マイトリップ")
+            .navigationTitle("マイページ")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
