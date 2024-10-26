@@ -8,7 +8,7 @@
 import FirebaseFirestore
 
 // 旅行全体を表す構造体
-struct Trip: Identifiable {
+struct Trip: Identifiable, Codable, Equatable, Hashable {
     @DocumentID var id: String?
     var title: String
     var startDate: Date
@@ -19,7 +19,7 @@ struct Trip: Identifiable {
     var actions: [Action] = []
     var subtitles: [String] = []
 
-    var ispublic: Bool = true
+    var isPublic: Bool = true
     var likedIDs: [String] = []
     var copiedIDs: [String] = []
     // MARK: Basic User Info

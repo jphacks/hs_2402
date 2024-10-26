@@ -88,6 +88,18 @@ struct ReusableProfileContent: View {
                 .tag(PageType.likeTrips)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink {
+                    InputTripView(trips: $fetchedMyTrips) { trip in
+                        fetchedMyTrips.append(trip)
+                        fetchedMyTrips.sort { $0.startDate > $1.startDate }
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
     }
 }
 
