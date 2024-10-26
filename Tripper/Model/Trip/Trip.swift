@@ -28,6 +28,18 @@ struct Trip: Identifiable {
     var creatorProfileURL: URL
 }
 
+extension Trip {
+    func formattedDateRange() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd"
+
+        let start = dateFormatter.string(from: startDate)
+        let end = dateFormatter.string(from: endDate)
+
+        return "\(start) - \(end)"
+    }
+}
+
 var mockTrip = Trip(title: "東京旅行",
                     startDate: Date(),
                     endDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date(),

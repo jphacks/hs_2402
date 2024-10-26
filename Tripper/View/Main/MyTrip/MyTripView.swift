@@ -32,8 +32,9 @@ struct MyTripView: View {
                         .hAlign(.center)
                 }
             }
-            .background(Color(UIColor.systemGray6))
+            .background(Color.white)
             .navigationTitle("マイトリップ")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
