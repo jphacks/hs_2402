@@ -36,10 +36,10 @@ struct TabBarItem: View {
             VStack(spacing: 8) {
                 if currentTab == tab {
                     Text(tabBarItemName)
-                        .foregroundColor(.orange)
+                        .foregroundColor(.mint)
                         .font(.callout)
                         .bold()
-                    Color.orange
+                    Color.mint
                         .frame(height: 2)
                         .matchedGeometryEffect(id: "underline",
                                                in: namespace,

@@ -14,7 +14,7 @@ struct ActionRowView: View {
             Image(systemName: action.category.image())
                 .font(.largeTitle)
                 .frame(width: 30, height: 30)
-                .foregroundStyle(.green)
+                .foregroundStyle(.mint)
                 .padding(.vertical, 24)
 
             VStack(alignment: .leading, spacing: 8) {
