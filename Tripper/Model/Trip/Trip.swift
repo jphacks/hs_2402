@@ -19,7 +19,7 @@ struct Trip: Identifiable {
     var actions: [Action] = []
     var subtitles: [String] = []
 
-    var ispublic: Bool = true
+    var isPublic: Bool = true
     var likedIDs: [String] = []
     var copiedIDs: [String] = []
     // MARK: Basic User Info

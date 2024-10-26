@@ -101,7 +101,7 @@ struct InputTripView: View {
             endDate: endDate,
             imageUrl: nil,
             prefecture: [prefecture],
-            ispublic: isPublic,
+            isPublic: isPublic,
             creatorName: user.username,
             creatorUID: user.userUID,
             creatorProfileURL: user.userProfileURL)
