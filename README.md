@@ -3,7 +3,7 @@
 [![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
 
 ## 製品概要
-SNSのような気軽さでさまざまな旅程のスクローリングができ、簡単に旅程を作成できるアプリです！
+みんなの旅行プランをもとに、手軽に旅程を作成できるアプリです！
 
 ### 背景(製品開発のきっかけ、課題等）
 新型コロナが収束し、国内外の旅行者は増加しています。
