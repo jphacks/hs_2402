@@ -64,7 +64,7 @@ enum Activity: String, CaseIterable, Codable {
         case .event:
             "balloon.2"
         case .none:
-            ""
+            "circle.dotted"
         }
     }
 }
