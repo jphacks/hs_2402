@@ -91,7 +91,7 @@ struct ReusableProfileContent: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
-                    CreateTripView(user: user, trip: $fetchedMyTrips)
+                    InputTripView(trips: $fetchedMyTrips, user: user)
                 } label: {
                     Image(systemName: "plus")
                 }
