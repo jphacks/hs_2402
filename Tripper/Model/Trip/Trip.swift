@@ -7,6 +7,7 @@
 
 import FirebaseFirestore
 
+
 // 旅行全体を表す構造体
 struct Trip: Identifiable, Codable, Equatable, Hashable {
     @DocumentID var id: String?
@@ -26,6 +27,7 @@ struct Trip: Identifiable, Codable, Equatable, Hashable {
     var creatorName: String
     var creatorUID: String
     var creatorProfileURL: URL
+    var tripMembers: [String] = []
 }
 
 extension Trip {
@@ -38,6 +40,21 @@ extension Trip {
 
         return "\(start) - \(end)"
     }
+
+    func joinedPrefectureNames() -> String {
+        var result = ""
+
+        // forループで要素を取り出し、文字列を連結
+        for (index, pref) in prefecture.enumerated() {
+            result += "\(pref.rawValue)"
+            if index < prefecture.count - 1 {
+                result += "-"
+            }
+        }
+
+        return result
+    }
+
 }
 
 var mockTrip = Trip(title: "東京旅行",
