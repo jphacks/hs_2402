@@ -84,7 +84,7 @@ struct ReusableProfileContent: View {
             TripListView(trips: $fetchedMyTrips)
                 .tag(PageType.myTrips)
 
-            Text("aaa")
+            TripListView(trips: $fetchedLikeTrips)
                 .tag(PageType.likeTrips)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

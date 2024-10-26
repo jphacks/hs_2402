@@ -12,7 +12,6 @@ struct TripListView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-                //            List {
                 ForEach(trips.indices, id: \.self) { index in
                     NavigationLink {
                         TripDetailView(trip: $trips[index])
@@ -21,7 +20,6 @@ struct TripListView: View {
                     }
                     Divider()
                 }
-                //            }
             }
         }
     }
