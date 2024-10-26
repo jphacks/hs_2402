@@ -90,9 +90,9 @@ struct ReusableProfileContent: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(action: {
-                    print("アクション実行")
-                }) {
+                NavigationLink {
+                    CreateTripView(user: user, trip: $fetchedMyTrips)
+                } label: {
                     Image(systemName: "plus")
                 }
             }
