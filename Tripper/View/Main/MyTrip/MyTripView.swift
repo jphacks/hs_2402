@@ -36,7 +36,7 @@ struct MyTripView: View {
             .navigationTitle("マイページ")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .secondaryAction) {
                     Menu {
                         // MARK: Two Action's
                         // 1. Logout
@@ -44,8 +44,7 @@ struct MyTripView: View {
                         // 2. Delete Account
                         Button("アカウント削除", role: .destructive, action: deleteAccount)
                     } label: {
-                        Image(systemName: "ellipsis")
-                            .tint(.black)
+                        Text("設定")
                     }
                 }
             }

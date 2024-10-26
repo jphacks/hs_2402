@@ -88,6 +88,15 @@ struct ReusableProfileContent: View {
                 .tag(PageType.likeTrips)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    print("アクション実行")
+                }) {
+                    Image(systemName: "plus")
+                }
+            }
+        }
     }
 }
 
