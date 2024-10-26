@@ -7,20 +7,34 @@
 
 import SwiftUI
 import PhotosUI
+import FirebaseFirestore
+import FirebaseStorage
 
 struct InputTripView: View {
     @State private var title: String = ""
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var prefecture: Prefecture = .tokyo
-    @State private var image: PhotosPickerItem?
+    @State private var photoItem: PhotosPickerItem?
+    @State private var tripImageData: Data?
     @State private var selectedImage: Image? = nil
     @State private var isPublic: Bool = false
-    @State private var isValidImage: Bool = false
-    @State private var isNavigationActive: Bool = false
+
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var showError: Bool = false
+    @State private var showImagePicker: Bool = false
+
     @Binding var trips: [Trip]
     @Environment(\.dismiss) var dismiss
-    var user: User
+    @FocusState private var showKeyboard: Bool
+
+    @AppStorage("user_profile_url") private var profileURL: URL?
+    @AppStorage("user_name") private var userNameStored: String = ""
+    @AppStorage("user_UID") private var userUID: String = ""
+
+    /// - Callbakcs
+    var onTrip: (Trip)->()
 
     var body: some View {
         Form {
@@ -29,6 +43,7 @@ struct InputTripView: View {
                     Text("タイトル")
                     TextField("旅行タイトルを入力", text: $title)
                         .multilineTextAlignment(TextAlignment.trailing)
+                        .focused($showKeyboard)
                 }
 
                 Picker("都道府県", selection: $prefecture) {
@@ -47,28 +62,41 @@ struct InputTripView: View {
             }
 
             Section {
-                Toggle("トリップ画像", isOn: $isValidImage)
-                if isValidImage{
-                    PhotosPicker(selection: $image) {
-                        Text("フォルダから選択する")
+                HStack {
+                    Text("トリップ画像")
+                    Spacer()
+                    Button {
+                        showImagePicker.toggle()
+                    } label: {
+                        Text("フォルダから選択")
                     }
-                    .onChange(of: image) {
-                        Task {
-                            if let image = image {
-                                if let imageData = try? await image.loadTransferable(type: Data.self),
-                                   let uiImage = UIImage(data: imageData) {
-                                    //DataをUIImageに変換し、Imageビューに表示
-                                    selectedImage = Image(uiImage: uiImage)
-                                }
-                            }
-                        }
-                    }
-                    if let selectedImage = selectedImage {
-                        selectedImage
+                }
+
+                if let tripImageData, let image = UIImage(data: tripImageData) {
+                    GeometryReader {
+                        let size = $0.size
+                        let _ = print(size)
+                        Image(uiImage: image)
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: 200, height: 200)
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: size.width, height: size.height)
+                            .clipShape(Rectangle())
+                            .overlay(alignment: .topTrailing) {
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        self.tripImageData = nil
+                                    }
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .fontWeight(.bold)
+                                        .tint(.red)
+                                }
+                                .padding(10)
+                            }
                     }
+                    .clipped()
+                    .frame(width: 80, height: 80)
+                    .hAlign(.center)
                 }
             }
 
@@ -76,11 +104,7 @@ struct InputTripView: View {
                 Toggle("トリップを公開する", isOn: $isPublic)
             }
 
-
-            Button {
-                addNewTrip()
-                dismiss()
-            } label: {
+            Button(action: createNewTrip) {
                 Text("トリップを作成")
                     .foregroundColor(Color.white)
                     .bold()
@@ -89,25 +113,91 @@ struct InputTripView: View {
             .vAlign(.center)
             .background(Color.blue)
             .listRowInsets(EdgeInsets())
+            .disableWithOpacity(title == "" || isLoading)
             .navigationTitle("トリップ作成")
+        }
+        .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
+        .onChange(of: photoItem) {
+            if let photoItem {
+                Task {
+                    if let rawImageData = try? await photoItem.loadTransferable(type: Data.self), let image = UIImage(data: rawImageData), let compressedImageData = image.jpegData(compressionQuality: 0.5) {
+                        /// UI Must be done on Main Thread
+                        await MainActor.run {
+                            tripImageData = compressedImageData
+                            self.photoItem = nil
+                        }
+                    }
+                }
+            }
+        }
+        .alert(errorMessage, isPresented: $showError, actions: {})
+        .overlay {
+            LoadingView(show: $isLoading)
         }
     }
 
-    func addNewTrip(){
-        //構造体を定義
-        let newtrip = Trip(
-            title: title,
-            startDate: startDate,
-            endDate: endDate,
-            imageUrl: nil,
-            prefecture: [prefecture],
-            isPublic: isPublic,
-            creatorName: user.username,
-            creatorUID: user.userUID,
-            creatorProfileURL: user.userProfileURL)
-        // 配列に格納
-        trips.append(newtrip)
-        trips.sort { $0.startDate > $1.startDate }
+    func createNewTrip() {
+        isLoading = true
+        showKeyboard = false
+        Task {
+            do {
+                guard let profileURL = profileURL else {return}
+                // Step 1: Uploading Image If any
+                // Used to delete the Post(Later shown in the video)
+                let imageReferenceID = "\(userUID)\(Date())"
+                let storageRef = Storage.storage().reference().child("Trip_Images").child(imageReferenceID)
+                if let tripImageData {
+                    let _ = try await storageRef.putDataAsync(tripImageData)
+                    let downloadURL = try await storageRef.downloadURL()
+
+                    // Step 3: Create Post Object With Image ID And URL
+                    let trip = Trip(title: title,
+                                    startDate: startDate,
+                                    endDate: endDate,
+                                    imageUrl: downloadURL,
+                                    imageReferenceID: imageReferenceID,
+                                    prefecture: [prefecture],
+                                    isPublic: isPublic,
+                                    creatorName: userNameStored,
+                                    creatorUID: userUID,
+                                    creatorProfileURL: profileURL)
+                    try await createDocumentAtFirebase(trip)
+                } else {
+                    // Step 2: Directly Post Text Data to Firebase (Since there is no Images Present)
+                    let trip = Trip(title: title,
+                                    startDate: startDate,
+                                    endDate: endDate,
+                                    prefecture: [prefecture],
+                                    isPublic: isPublic,
+                                    creatorName: userNameStored,
+                                    creatorUID: userUID,
+                                    creatorProfileURL: profileURL)
+                    try await createDocumentAtFirebase(trip)
+                }
+            } catch {
+                await setError(error)
+            }
+        }
+    }
+
+    func createDocumentAtFirebase(_ trip: Trip) async throws {
+        let doc = Firestore.firestore().collection("Trips").document()
+        let _ = try doc.setData(from: trip) { error in
+            if error == nil {
+                isLoading = false
+                var updatedTrip = trip
+                updatedTrip.id = doc.documentID
+                onTrip(updatedTrip)
+                dismiss()
+            }
+        }
+    }
+
+    func setError(_ error: Error) async {
+        await MainActor.run {
+            errorMessage = error.localizedDescription
+            showError.toggle()
+        }
     }
 }
 
@@ -125,6 +215,8 @@ extension InputTripView{
 #Preview {
     @Previewable @State var trip = [mockTrip]
     NavigationStack {
-        InputTripView(trips: $trip, user: mockUser)//引数は[trip]
+        InputTripView(trips: $trip) { _ in
+
+        }
     }
 }

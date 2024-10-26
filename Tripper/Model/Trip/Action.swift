@@ -7,7 +7,7 @@
 
 import FirebaseFirestore
 
-struct Action: Identifiable, Codable {
+struct Action: Identifiable, Codable, Equatable, Hashable {
     @DocumentID var id: String?
     var title: String
     var category: Category
