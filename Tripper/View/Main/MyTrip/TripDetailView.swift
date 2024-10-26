@@ -10,9 +10,8 @@ import SwiftUI
 struct TripDetailView: View {
     @Binding var trip: Trip
     var body: some View {
-        let _ = print(trip.actions)
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 12) {
+            VStack(spacing: 0) {
                 // プラン内容
                 ForEach(trip.actions){ action in
                     ActionRowView(action: action)

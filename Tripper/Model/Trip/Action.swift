@@ -10,7 +10,7 @@ import FirebaseFirestore
 struct Action: Identifiable, Codable {
     @DocumentID var id: String?
     var title: String
-    var category: Category?
+    var category: Category
     var startTime: Date
     var endTime: Date?
     var memo: String?
@@ -47,6 +47,7 @@ enum Activity: String, CaseIterable, Codable {
     case activity = "体験"
     case hotel = "宿泊"
     case event = "イベント"
+    case none = "なし"
 
     func image() -> String {
         switch self {
@@ -62,6 +63,8 @@ enum Activity: String, CaseIterable, Codable {
             "bed.double"
         case .event:
             "balloon.2"
+        case .none:
+            ""
         }
     }
 }
@@ -114,7 +117,7 @@ let mockActions: [Action] = [
     Action(
         id: UUID().uuidString,
         title: "秋葉原",
-        category: nil,
+        category: .activity(.none),
         startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!, memo: "電気製品やアニメ関連商品が豊富に揃うエリアです。" // 終了時刻を午後4時に設定
     ),
 
