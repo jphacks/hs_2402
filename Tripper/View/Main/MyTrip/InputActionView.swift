@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+
 
 struct InputActionView: View {
     @State private var name: String = ""
@@ -94,7 +96,23 @@ struct InputActionView: View {
                 }
             }
 
-            Button(action: addTrip) {
+            //            Button(action: ) {
+            //                Text("イベントを追加")
+            //                    .foregroundColor(Color.white)
+            //                    .bold()
+            //            }
+            //            .hAlign(.center)
+            //            .vAlign(.center)
+            //            .background(Color.blue)
+            //            .listRowInsets(EdgeInsets())
+            //            .navigationTitle("新規イベント")
+            //            .navigationBarTitleDisplayMode(.inline)
+
+            Button {
+                Task {
+                    await addAction()
+                }
+            } label: {
                 Text("イベントを追加")
                     .foregroundColor(Color.white)
                     .bold()
@@ -108,7 +126,7 @@ struct InputActionView: View {
         }
     }
 
-    func addTrip() {
+    func addAction() async {
         var addingEndTime: Date? = self.endTime
         var addingMemo: String? = self.memo
 
@@ -122,6 +140,13 @@ struct InputActionView: View {
         let action = Action(id: UUID().uuidString, title: name, category: category, startTime: startTime, endTime: addingEndTime, memo: addingMemo)
         trip.actions.append(action)
         trip.actions.sort { $0.startTime < $1.startTime }
+        do {
+            guard let tripId = trip.id else { return }
+            let encodedTrip = try Firestore.Encoder().encode(trip)
+            try await Firestore.firestore().collection("Trips").document(tripId).setData(encodedTrip, merge: true)
+        } catch {
+            print("データ保存失敗：\(error.localizedDescription)")
+        }
         dismiss()
     }
 }

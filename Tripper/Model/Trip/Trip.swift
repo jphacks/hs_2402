@@ -65,3 +65,12 @@ var mockTrip = Trip(title: "東京旅行",
                     creatorName: "おーの",
                     creatorUID: "aaa",
                     creatorProfileURL: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/tripper-419d4.appspot.com/o/Profile_Images%2FOGDTXbgP2uUePKV0hl7CnETAAhX2?alt=media&token=e42e480d-6581-4d87-934c-7ec587c848c7") ?? URL(fileURLWithPath: "") )
+
+var mockTrip2 = Trip(id:"111", title: "京都旅行",
+                    startDate: Date(),
+                    endDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date(),
+                    prefecture: [.tokyo],
+                    actions: mockActions,
+                    creatorName: "おーの",
+                    creatorUID: "aaa",
+                    creatorProfileURL: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/tripper-419d4.appspot.com/o/Profile_Images%2FOGDTXbgP2uUePKV0hl7CnETAAhX2?alt=media&token=e42e480d-6581-4d87-934c-7ec587c848c7") ?? URL(fileURLWithPath: "") )
