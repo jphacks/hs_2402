@@ -40,7 +40,7 @@ struct ActionRowView: View {
                 .foregroundStyle(.secondary)
                 .font(.callout)
 
-                Text(action.name)
+                Text(action.title)
                     .font(.title3)
             }
         }

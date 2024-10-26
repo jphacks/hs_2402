@@ -13,6 +13,14 @@ struct User: Identifiable, Codable {
     var userUID: String
     var userEmail: String
     var userProfileURL: URL
+    var userBio: String = ""
+
+    var myTrips: [Trip] = []
+    var likeTrips: [Trip] = []
+    var invitedTrips:[Trip] = []
+
+    var follows: [String] = []
+    var followers: [String] = []
 
     enum CodingKeys: CodingKey {
         case id

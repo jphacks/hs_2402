@@ -10,6 +10,7 @@ import SwiftUI
 struct TripDetailView: View {
     @Binding var trip: Trip
     var body: some View {
+        let _ = print(trip.actions)
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 12) {
                 // プラン内容
