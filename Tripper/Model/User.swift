@@ -30,3 +30,6 @@ struct User: Identifiable, Codable {
         case userProfileURL
     }
 }
+
+var mockUser = User(username: "yuki", userUID: "aaa",
+                    userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: ""), userBio: "今日は日本", myTrips: [mockTrip, mockTrip])

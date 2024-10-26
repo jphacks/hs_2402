@@ -8,47 +8,91 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ReusableProfileContent: View {
-    @State private var fetchedTrips: [Trip] = [mockTrip]
-    var user: User
-    var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack {
-                HStack(spacing: 12) {
-                    WebImage(url: user.userProfileURL) { image in
-                        image
-                    } placeholder: {
-                        Image("NullProfile")
-                            .resizable()
-                    }
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
+enum PageType: CaseIterable {
+    case myTrips
+    case likeTrips
 
-                    Text(user.username)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .hAlign(.leading)
+    func toString() -> String {
+        switch self {
+        case .myTrips:
+            "私のトリップ"
+        case .likeTrips:
+            "いいねしたトリップ"
+        }
+    }
+}
+
+struct ReusableProfileContent: View {
+    @State private var fetchedMyTrips: [Trip] = [mockTrip, mockTrip]
+    @State private var fetchedLikeTrips: [Trip] = [mockTrip]
+    @State var pageType: PageType = .myTrips
+
+    var user: User
+
+    var body: some View {
+        LazyVStack {
+            VStack(alignment: .leading) {
+                HStack(spacing: 10) {
+                    VStack(alignment: .leading) {
+                        WebImage(url: user.userProfileURL) { image in
+                            image
+                        } placeholder: {
+                            Image("NullProfile")
+                                .resizable()
+                        }
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+
+                    }
+
+                    VStack(alignment: .center) {
+                        Text("\(user.myTrips.count)")
+                        Text("投稿数")
+                    }
+                    .padding(.horizontal, 10)
+
+                    VStack(alignment: .center) {
+                        Text("\(user.followers.count)")
+                        Text("フォロワー")
+                    }
+
+                    VStack(alignment: .center) {
+                        Text("\(user.follows.count)")
+                        Text("フォロー中")
+                    }
                 }
 
-                Text("トリップ一覧")
-                    .font(.title2)
+                Text(user.username)
+                    .font(.title3)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.black)
-                    .hAlign(.leading)
-                    .padding(.vertical, 16)
+                    .padding(.leading, 8)
 
-                TripListView(trips: $fetchedTrips)
+                Text(user.userBio)
+                    .padding(.leading, 8)
             }
-            .padding(16)
         }
+        .padding(5)
+
+        VStack(spacing: 0) {
+            TabBarView(currentTab: $pageType)
+                .padding(.top, 10)
+            Divider()
+        }
+        TabView(selection: $pageType) {
+            TripListView(trips: $fetchedMyTrips)
+                .tag(PageType.myTrips)
+
+            TripListView(trips: $fetchedLikeTrips)
+                .tag(PageType.likeTrips)
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
 
 #Preview {
     NavigationStack {
-        ReusableProfileContent(user: User(username: "yuki", userUID: "aaa",
-                                          userEmail: "test@123.com", userProfileURL: URL(fileURLWithPath: "")))
+        ReusableProfileContent(user: mockUser)
     }
 }

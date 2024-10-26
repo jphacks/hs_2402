@@ -10,14 +10,15 @@ import SwiftUI
 struct TripListView: View {
     @Binding var trips: [Trip]
     var body: some View {
-        ScrollView {
-            LazyVStack {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack {
                 ForEach(trips.indices, id: \.self) { index in
                     NavigationLink {
                         TripDetailView(trip: $trips[index])
                     } label: {
                         TripRowView(trip: trips[index])
                     }
+                    Divider()
                 }
             }
         }
@@ -25,6 +26,6 @@ struct TripListView: View {
 }
 
 #Preview {
-    @Previewable @State var trips: [Trip] = [mockTrip]
+    @Previewable @State var trips: [Trip] = [mockTrip, mockTrip]
     TripListView(trips: $trips)
 }
