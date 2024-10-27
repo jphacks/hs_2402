@@ -15,6 +15,7 @@ struct TripDetailView: View {
 
     @State private var showingDialog: Bool = false
     @State private var isEditAction: Bool = false
+    @State private var isEditTrip: Bool = false
     @State private var selectedAction: Action?  // 現在選択されたアクションを保存
     @Environment(\.dismiss) var dismiss
 
@@ -46,7 +47,7 @@ struct TripDetailView: View {
                                 .padding(.trailing, 12)
                             Menu {
                                 Button {
-                                    print("a")
+                                    isEditTrip = true
                                 } label: {
                                     Text("プロフィール編集")
                                 }
@@ -138,6 +139,9 @@ struct TripDetailView: View {
                     if let selectedAction = selectedAction {
                         ActionEditView(trip: $trip, action: selectedAction)
                     }
+                })
+                .navigationDestination(isPresented: $isEditTrip, destination: {
+                    Text("aaa")
                 })
             }
         }

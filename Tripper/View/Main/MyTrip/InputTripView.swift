@@ -212,11 +212,11 @@ extension InputTripView{
     }
 }
 
-#Preview {
-    @Previewable @State var trip = [mockTrip]
-    NavigationStack {
-        InputTripView(trips: $trip) { _ in
-
-        }
-    }
-}
+//#Preview {
+//    @Previewable @State var trip = [mockTrip]
+//    NavigationStack {
+//        InputTripView(trips: $trip) { _ in
+//
+//        }
+//    }
+//}
