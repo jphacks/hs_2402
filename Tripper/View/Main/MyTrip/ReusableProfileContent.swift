@@ -31,7 +31,7 @@ struct ReusableProfileContent: View {
     @State var fetchedLikeTrips: [Trip] = []
     @State var pageType: PageType = .myTrips
 
-    var user: User
+    @State var user: User
 
     @AppStorage("user_UID") private var userUID: String = ""
 
@@ -105,6 +105,13 @@ struct ReusableProfileContent: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
+                HStack{
+                    NavigationLink {
+                        ProfileEditView(user: $user)
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                    }
+
                 NavigationLink {
                     InputTripView(trips: $fetchedMyTrips) { trip in
                         fetchedMyTrips.append(trip)
@@ -113,6 +120,7 @@ struct ReusableProfileContent: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+            }
             }
         }
     }
