@@ -1,6 +1,6 @@
 # Tripper(トリッパー)【手軽な旅程作成アプリ】
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
+![Tripper](https://github.com/user-attachments/assets/f686cf56-0399-4be9-a111-926cb9a5e150)
 
 ## 製品概要
 みんなの旅行プランをもとに、手軽に旅程を作成できるアプリです！
