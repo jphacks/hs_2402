@@ -7,6 +7,9 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseAuth
 
 
 struct TripDetailView: View {
@@ -14,9 +17,12 @@ struct TripDetailView: View {
 
     @State private var showingDialog: Bool = false
     @State private var isEditAction: Bool = false
-    @State private var selectedAction: Action?  //現在選択されたアクションを保存
+    @State private var selectedAction: Action?
+    //現在選択されたアクションを保存
     @AppStorage("user_UID") private var userUID: String = ""
+    @AppStorage("user_name") var userNameStored: String = ""
     @Environment(\.dismiss) var dismiss
+    @State var isCopyAlert = false
 
 
     var body: some View {
@@ -150,8 +156,8 @@ extension TripDetailView{
     }
 
     private var copyTripButton: some View {
-        NavigationLink {
-            InputActionView(trip: $trip)
+        Button {
+            isCopyAlert = true
         } label: {
             Image(systemName: "doc.on.doc")
                 .font(.system(size: 30))    // プラスマークの大きさを指定
@@ -162,6 +168,16 @@ extension TripDetailView{
                 .shadow(radius: 10)         // ボタンに影を付ける
         }
         .padding()  // 右下に余白を追加
+        .alert("コピーしてもいいですか?", isPresented: $isCopyAlert) {
+            Button("キャンセル") {
+            }
+            Button("OK") {
+                Task {
+                    await copyTrip()
+                }
+                dismiss()
+            }
+        } 
     }
 
     func deleteTrip(action: Action) {
@@ -176,6 +192,18 @@ extension TripDetailView{
             trip.actions.remove(at: index!)
         }
         dismiss()
+    }
+
+    func copyTrip() async {
+        do {
+            trip.creatorUID = userUID
+            trip.creatorName = userNameStored
+            trip.id = nil
+            let encodedTrip = try Firestore.Encoder().encode(trip)
+            try await Firestore.firestore().collection("Trips").document().setData(encodedTrip)
+        } catch {
+            print("データ保存失敗：\(error.localizedDescription)")
+        }
     }
 }
 
