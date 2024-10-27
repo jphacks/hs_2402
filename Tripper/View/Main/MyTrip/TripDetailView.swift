@@ -7,6 +7,9 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseAuth
 
 
 struct TripDetailView: View {
@@ -14,8 +17,12 @@ struct TripDetailView: View {
 
     @State private var showingDialog: Bool = false
     @State private var isEditAction: Bool = false
-    @State private var selectedAction: Action?  // 現在選択されたアクションを保存
+    @State private var selectedAction: Action?
+    //現在選択されたアクションを保存
+    @AppStorage("user_UID") private var userUID: String = ""
+    @AppStorage("user_name") var userNameStored: String = ""
     @Environment(\.dismiss) var dismiss
+    @State var isCopyAlert = false
 
 
     var body: some View {
@@ -87,11 +94,14 @@ struct TripDetailView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         // プラン内容
-                        ForEach(trip.actions){ action in
+                        ForEach(trip.actions, id: \.self){ action in
                             ActionRowView(action: action)
                                 .onTapGesture {
-                                    selectedAction = action  // タップしたアクションを保存
-                                    showingDialog.toggle()
+                                    if userUID == trip.creatorUID {
+
+                                        selectedAction = action  // タップしたアクションを保存
+                                        showingDialog.toggle()
+                                    }
                                 }
                             Divider()
                         }
@@ -113,7 +123,11 @@ struct TripDetailView: View {
                     }
                 }
                 .overlay(alignment: .bottomTrailing) {
-                    AddActionButton
+                    if userUID == trip.creatorUID {
+                        addActionButton
+                    } else {
+                        copyTripButton
+                    }
                 }
                 .navigationDestination(isPresented: $isEditAction, destination: {
                     if let selectedAction = selectedAction {
@@ -126,7 +140,7 @@ struct TripDetailView: View {
 }
 
 extension TripDetailView{
-    private var AddActionButton: some View {
+    private var addActionButton: some View {
         NavigationLink {
             InputActionView(trip: $trip)
         } label: {
@@ -134,11 +148,36 @@ extension TripDetailView{
                 .font(.system(size: 30))    // プラスマークの大きさを指定
                 .foregroundColor(.white)
                 .padding()
-                .background(Color.black)
+                .background(Color.mint)
                 .clipShape(Circle())        // ボタンを丸くする
                 .shadow(radius: 10)         // ボタンに影を付ける
         }
         .padding()  // 右下に余白を追加
+    }
+
+    private var copyTripButton: some View {
+        Button {
+            isCopyAlert = true
+        } label: {
+            Image(systemName: "doc.on.doc")
+                .font(.system(size: 30))    // プラスマークの大きさを指定
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.mint)
+                .clipShape(Circle())        // ボタンを丸くする
+                .shadow(radius: 10)         // ボタンに影を付ける
+        }
+        .padding()  // 右下に余白を追加
+        .alert("コピーしてもいいですか?", isPresented: $isCopyAlert) {
+            Button("キャンセル") {
+            }
+            Button("OK") {
+                Task {
+                    await copyTrip()
+                }
+                dismiss()
+            }
+        } 
     }
 
     func deleteTrip(action: Action) {
@@ -153,6 +192,18 @@ extension TripDetailView{
             trip.actions.remove(at: index!)
         }
         dismiss()
+    }
+
+    func copyTrip() async {
+        do {
+            trip.creatorUID = userUID
+            trip.creatorName = userNameStored
+            trip.id = nil
+            let encodedTrip = try Firestore.Encoder().encode(trip)
+            try await Firestore.firestore().collection("Trips").document().setData(encodedTrip)
+        } catch {
+            print("データ保存失敗：\(error.localizedDescription)")
+        }
     }
 }
 
