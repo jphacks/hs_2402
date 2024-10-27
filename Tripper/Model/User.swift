@@ -21,14 +21,6 @@ struct User: Identifiable, Codable {
 
     var follows: [String] = []
     var followers: [String] = []
-
-    enum CodingKeys: CodingKey {
-        case id
-        case username
-        case userUID
-        case userEmail
-        case userProfileURL
-    }
 }
 
 var mockUser = User(username: "yuki", userUID: "aaa",
