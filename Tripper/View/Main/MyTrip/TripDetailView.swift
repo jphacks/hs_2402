@@ -14,7 +14,8 @@ struct TripDetailView: View {
 
     @State private var showingDialog: Bool = false
     @State private var isEditAction: Bool = false
-    @State private var selectedAction: Action?  // 現在選択されたアクションを保存
+    @State private var selectedAction: Action?  //現在選択されたアクションを保存
+    @AppStorage("user_UID") private var userUID: String = ""
     @Environment(\.dismiss) var dismiss
 
 
@@ -113,7 +114,11 @@ struct TripDetailView: View {
                     }
                 }
                 .overlay(alignment: .bottomTrailing) {
-                    AddActionButton
+                    if userUID == trip.creatorUID {
+                        addActionButton
+                    } else {
+                        copyTripButton
+                    }
                 }
                 .navigationDestination(isPresented: $isEditAction, destination: {
                     if let selectedAction = selectedAction {
@@ -126,7 +131,7 @@ struct TripDetailView: View {
 }
 
 extension TripDetailView{
-    private var AddActionButton: some View {
+    private var addActionButton: some View {
         NavigationLink {
             InputActionView(trip: $trip)
         } label: {
@@ -134,7 +139,22 @@ extension TripDetailView{
                 .font(.system(size: 30))    // プラスマークの大きさを指定
                 .foregroundColor(.white)
                 .padding()
-                .background(Color.black)
+                .background(Color.mint)
+                .clipShape(Circle())        // ボタンを丸くする
+                .shadow(radius: 10)         // ボタンに影を付ける
+        }
+        .padding()  // 右下に余白を追加
+    }
+
+    private var copyTripButton: some View {
+        NavigationLink {
+            InputActionView(trip: $trip)
+        } label: {
+            Image(systemName: "doc.on.doc")
+                .font(.system(size: 30))    // プラスマークの大きさを指定
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.mint)
                 .clipShape(Circle())        // ボタンを丸くする
                 .shadow(radius: 10)         // ボタンに影を付ける
         }
