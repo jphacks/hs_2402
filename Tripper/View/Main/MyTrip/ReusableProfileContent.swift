@@ -7,6 +7,10 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
+
 
 enum PageType: CaseIterable {
     case myTrips
@@ -23,7 +27,7 @@ enum PageType: CaseIterable {
 }
 
 struct ReusableProfileContent: View {
-    @State private var fetchedMyTrips: [Trip] = [mockTrip, mockTrip]
+    @State var fetchedMyTrips: [Trip] = []
     @State private var fetchedLikeTrips: [Trip] = [mockTrip]
     @State var pageType: PageType = .myTrips
 
@@ -48,7 +52,7 @@ struct ReusableProfileContent: View {
                     }
 
                     VStack(alignment: .center) {
-                        Text("\(user.myTrips.count)")
+                        Text("\(fetchedMyTrips.count)")
                         Text("投稿数")
                     }
                     .padding(.horizontal, 10)
@@ -74,6 +78,11 @@ struct ReusableProfileContent: View {
             }
         }
         .padding(5)
+        .onAppear() {
+            Task {
+                await fetchUserTrips(user: user)
+            }
+        }
 
         VStack(spacing: 0) {
             TabBarView(currentTab: $pageType)
@@ -101,10 +110,28 @@ struct ReusableProfileContent: View {
             }
         }
     }
-}
+    func fetchUserTrips(user: User) async {
+        guard let uid = user.id else { return }
+        do {
+            // Firestore クエリでユーザーIDで絞り込んで取得
+            let snapshot = try await Firestore.firestore()
+                .collection("Trips")
+                .whereField("creatorUID", isEqualTo: uid)
+                .getDocuments()
 
-#Preview {
-    NavigationStack {
-        ReusableProfileContent(user: mockUser)
+            // 取得したドキュメントを `[Trip]` にデコード
+            self.fetchedMyTrips = try snapshot.documents.compactMap { document in
+                try document.data(as: Trip.self)
+            }
+        } catch {
+            print("旅行取得失敗：\(error.localizedDescription)")
+        }
     }
 }
+
+
+//#Preview {
+//    NavigationStack {
+//        ReusableProfileContent(user: mockUser)
+//    }
+//}

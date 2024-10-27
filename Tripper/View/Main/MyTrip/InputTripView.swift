@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 struct InputTripView: View {
     @State private var title: String = ""
@@ -24,6 +25,7 @@ struct InputTripView: View {
     @State private var errorMessage: String = ""
     @State private var showError: Bool = false
     @State private var showImagePicker: Bool = false
+
 
     @Binding var trips: [Trip]
     @Environment(\.dismiss) var dismiss
