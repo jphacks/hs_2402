@@ -1,7 +1,7 @@
 # Tripper(トリッパー)【手軽な旅程作成アプリ】
 
 [![Tripper](https://github.com/user-attachments/assets/f686cf56-0399-4be9-a111-926cb9a5e150)](https://www.canva.com/design/DAGUuXfYn10/C_nEnGAhQ6wl7HIEXvoSzw/watch?utm_content=DAGUuXfYn10&utm_campaign=designshare&utm_medium=link&utm_source=editor)
-
+**クリックしてデモ動画再生**
 ## 製品概要
 みんなの旅行プランをもとに、手軽に旅程を作成できるアプリです！
 
