@@ -88,11 +88,14 @@ struct TripDetailView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         // プラン内容
-                        ForEach(trip.actions){ action in
+                        ForEach(trip.actions, id: \.self){ action in
                             ActionRowView(action: action)
                                 .onTapGesture {
-                                    selectedAction = action  // タップしたアクションを保存
-                                    showingDialog.toggle()
+                                    if userUID == trip.creatorUID {
+
+                                        selectedAction = action  // タップしたアクションを保存
+                                        showingDialog.toggle()
+                                    }
                                 }
                             Divider()
                         }
