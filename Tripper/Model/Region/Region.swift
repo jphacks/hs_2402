@@ -8,8 +8,7 @@
 import Foundation
 
 enum JapaneseRegion: String, CaseIterable, Identifiable {
-    case hokkaido = "北海道"
-    case tohoku = "東北"
+    case hokkaidoAndTohoku = "北海道・東北"
     case kanto = "関東"
     case chubu = "中部"
     case kansai = "関西"
@@ -24,10 +23,8 @@ enum JapaneseRegion: String, CaseIterable, Identifiable {
 extension JapaneseRegion {
     var prefectures: [Prefecture] {
         switch self {
-        case .hokkaido: return [
-                .hokkaido
-            ]
-        case .tohoku: return [
+        case .hokkaidoAndTohoku: return [
+                .hokkaido,
                 .aomori,
                 .iwate,
                 .miyagi,

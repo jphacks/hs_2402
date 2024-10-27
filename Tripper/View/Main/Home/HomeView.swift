@@ -8,34 +8,46 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var currentTab: Int = 1
-
-    // 初期化時にUIPageControlの色を変更
-    init() {
-        UIPageControl.appearance().currentPageIndicatorTintColor = .black
-    }
-
     var body: some View {
-        TabView(selection: $currentTab) {
-            Text("イベント選択")
-                .tag(0)
-                .tabItem {
-                    Image(systemName: "figure.2")
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 30) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("都道府県から選ぶ")
+                            .font(.system(size: 22))
+                            .fontWeight(.semibold)
+                            .padding(.top, 24)
+                            .padding(.bottom, -24)
+
+                        ForEach(JapaneseRegion.allCases) { region in
+                            Section {
+                                ForEach(region.prefectures) { prefecture in
+                                    NavigationLink {
+                                        PrefectureTripListView(prefecture: prefecture)
+                                    } label: {
+                                        PrefectureCardView(prefecture: prefecture, cornerRadius: 8, height: 100)
+                                    }
+                                }
+                            } header: {
+                                HStack {
+                                    Text(region.rawValue)
+                                        .font(.system(size: 22))
+                                        .fontWeight(.medium)
+                                    Rectangle()
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 2)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding(.vertical, 12)
+                                .padding(.top, 24)
+                            }
+                        }
+                    }
                 }
-            Text("地域選択")
-                .tag(1)
-                .tabItem {
-                    Image(systemName: "mappin")
-                }
-            Text("移動手段選択")
-                .tag(2)
-                .tabItem {
-                    Image(systemName: "airplane")
-                }
+                .padding(.horizontal, 24)
+            }
+            .navigationTitle("ホーム")
         }
-        .tabViewStyle(.page)
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
-        .background(Color(UIColor.systemGray6))
     }
 }
 
