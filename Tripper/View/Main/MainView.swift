@@ -22,6 +22,11 @@ struct MainView: View {
                     Image(systemName: "house")
                     Text("ホーム")
                 }
+            SearchUserView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("ユーザ検索")
+                }
             MyTripView()
                 .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")

@@ -24,7 +24,7 @@ struct PrefectureTripListView: View {
                 } else {
                     if prefectureTrips.isEmpty {
                         // No Post's Found on Firestore
-                        Text("登録されていません")
+                        Text("トリップがありません")
                             .foregroundStyle(.gray)
                             .padding(.top, 28)
                     } else {
