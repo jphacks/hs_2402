@@ -28,10 +28,13 @@ enum PageType: CaseIterable {
 
 struct ReusableProfileContent: View {
     @State var fetchedMyTrips: [Trip] = []
-    @State private var fetchedLikeTrips: [Trip] = [mockTrip]
+    @State var fetchedLikeTrips: [Trip] = []
     @State var pageType: PageType = .myTrips
 
     var user: User
+
+    @AppStorage("user_UID") private var userUID: String = ""
+
 
     var body: some View {
         LazyVStack {
@@ -82,6 +85,9 @@ struct ReusableProfileContent: View {
             Task {
                 await fetchUserTrips(user: user)
             }
+            Task {
+                await fetchLikeTrips()
+            }
         }
 
         VStack(spacing: 0) {
@@ -127,6 +133,24 @@ struct ReusableProfileContent: View {
             print("旅行取得失敗：\(error.localizedDescription)")
         }
     }
+    func fetchLikeTrips() async {
+        guard let uid = user.id else { return }
+        do {
+            // Firestore クエリでユーザーIDで絞り込んで取得
+            let snapshot = try await Firestore.firestore()
+                .collection("Trips")
+                .whereField("likedIDs", arrayContains: uid)
+                .getDocuments()
+
+            // 取得したドキュメントを `[Trip]` にデコード
+            self.fetchedLikeTrips = try snapshot.documents.compactMap { document in
+                try document.data(as: Trip.self)
+            }
+        } catch {
+            print("旅行取得失敗：\(error.localizedDescription)")
+        }
+    }
+
 }
 
 
