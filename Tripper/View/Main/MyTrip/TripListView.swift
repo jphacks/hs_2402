@@ -16,7 +16,7 @@ struct TripListView: View {
                     NavigationLink {
                         TripDetailView(trip: $trips[index])
                     } label: {
-                        TripRowView(trip: trips[index])
+                        TripRowView(trip: $trips[index])
                     }
                     Divider()
                 }
