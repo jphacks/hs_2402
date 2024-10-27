@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct PrefectureTripListView: View {
+    @State private var prefectureTrips: [Trip] = [mockTrip, mockTrip, mockTrip, mockTrip]
     let prefecture: Prefecture
     var body: some View {
         VStack {
-            Text(prefecture.nameWithSuffix)
-            Image("\(prefecture)")
-                .resizable()
-                .frame(width: 30, height: 30)
+            PrefectureCardView(prefecture: prefecture, cornerRadius: 0, height: 180)
+                .shadow(radius: 2, y: 2)
+            TripListView(trips: $prefectureTrips)
+                .navigationTitle("\(prefecture.nameWithSuffix)のトリップ")
+                .navigationBarTitleDisplayMode(.inline)
         }
+        .vAlign(.top)
     }
 }
 
 #Preview {
-    PrefectureTripListView(prefecture: .tokushima)
+    NavigationStack {
+        PrefectureTripListView(prefecture: .tokushima)
+    }
 }

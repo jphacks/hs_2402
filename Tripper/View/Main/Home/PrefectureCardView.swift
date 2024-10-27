@@ -9,19 +9,21 @@ import SwiftUI
 
 struct PrefectureCardView: View {
     let prefecture: Prefecture
+    let cornerRadius: CGFloat
+    let height: CGFloat
     var body: some View {
         ZStack(alignment: .topLeading) {
             Image("\(prefecture)")
                 .resizable()
                 .frame(maxWidth: .infinity)
                 .aspectRatio(contentMode: .fill)
-                .frame(height: 100)
+                .frame(height: height)
                 .opacity(0.8)
                 .overlay(alignment: .topLeading) {
                     Color.black
                         .opacity(0.2)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
 
             Text(prefecture.rawValue)
                 .foregroundStyle(.white)
@@ -34,7 +36,7 @@ struct PrefectureCardView: View {
 
 #Preview {
     HStack {
-        PrefectureCardView(prefecture: .tokushima)
-        PrefectureCardView(prefecture: .ehime)
+        PrefectureCardView(prefecture: .tokushima, cornerRadius: 8, height: 100)
+        PrefectureCardView(prefecture: .ehime, cornerRadius: 8, height: 100)
     }
 }
