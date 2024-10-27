@@ -57,7 +57,8 @@ extension Trip {
 
 }
 
-var mockTrip = Trip(title: "東京旅行",
+var mockTrip = Trip(id:"222",
+                    title: "東京旅行",
                     startDate: Date(),
                     endDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date(),
                     prefecture: [.tokyo],
