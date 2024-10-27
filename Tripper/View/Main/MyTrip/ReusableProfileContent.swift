@@ -19,7 +19,7 @@ enum PageType: CaseIterable {
     func toString() -> String {
         switch self {
         case .myTrips:
-            "私のトリップ"
+            "マイトリップ"
         case .likeTrips:
             "いいねしたトリップ"
         }
@@ -130,8 +130,8 @@ struct ReusableProfileContent: View {
 }
 
 
-//#Preview {
-//    NavigationStack {
-//        ReusableProfileContent(user: mockUser)
-//    }
-//}
+#Preview {
+    NavigationStack {
+        ReusableProfileContent(user: mockUser)
+    }
+}

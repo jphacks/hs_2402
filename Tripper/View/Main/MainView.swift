@@ -30,7 +30,7 @@ struct MainView: View {
             MyTripView()
                 .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")
-                    Text("マイトリップ")
+                    Text("マイページ")
                 }
         }
         .tint(.black)
